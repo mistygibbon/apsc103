@@ -18,7 +18,10 @@ domain_name/api/
 
 ## Resources
 (Anything) https://developer.mozilla.org/en-US/docs/Web
+
 (Anything) https://devdocs.io/
+
 (HTML, CSS, JavaScript, Ruby on Rails, Node.js, Express.js) https://www.theodinproject.com/
+
 (Anything) https://www.geeksforgeeks.org/
 
