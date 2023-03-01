@@ -1,27 +1,31 @@
 # APSC 103 Project - Hyperloop Digital GUI
+## Folders
+\_\_pycache\_\_/
+frontend/
+static/
+templates/
+venv/
+
 ## Installation
+
+``` bash
 git clone
-
 ./venv/bin/activate
-
 flask --app hello --debug run
+```
 
 ## Frontend
 
 ## Backend
-
-domain_name/api/speed Return last 50 speed data
-
-domain_name/api/temp Return last 50 temperature data
-
-domain_name/api/
-
+### Routes
+| url                   | use                             |
+| --------------------- | ------------------------------- |
+| domain_name/api/speed | Return last 50 speed data       |
+| domain_name/api/temp  | Return last 50 temperature data |
 ## Resources
-(Anything) https://developer.mozilla.org/en-US/docs/Web
-
-(Anything) https://devdocs.io/
-
-(HTML, CSS, JavaScript, Ruby on Rails, Node.js, Express.js) https://www.theodinproject.com/
-
-(Anything) https://www.geeksforgeeks.org/
-
+| Name             | Content                           | URL                                          |
+| ---------------- | --------------------------------- | -------------------------------------------- |
+| MDN Web Docs     | Anything                          | https://developer.mozilla.org/en-US/docs/Web |
+| DevDocs          | Anything                          | https://devdocs.io/                          |
+| The Odin Project | Step by step learning for web dev | https://www.theodinproject.com/              |
+| Geek for Geeks   | Anything                          | https://www.geeksforgeeks.org/               |
