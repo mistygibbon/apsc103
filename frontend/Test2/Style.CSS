@@ -1,0 +1,36 @@
+body{
+    background-color: #857b7b;
+    /* background-repeat: no-repeat; */
+    /* background-image: url("image.jpg"); */
+    
+}
+p{
+    font-size: 24px;
+}
+#box{
+    /*height: 200px;
+    width: 300px;
+    border: 20px solid black;
+    background-size:cover;
+    border-radius: 0 10% 100% 50%;
+    box-shadow: 5px 1px 100px inset violet;
+    box-shadow: 5px 1px 100px black;*/
+
+    background-color: rgba(256, 256, 256, 80%);
+    height: 500px;
+    width: 500px;
+    border: 20px black;
+    border-style:ridge;
+    padding: 25px;
+    margin: 50px auto;
+    display:block;
+    text-align: center;
+    /* opacity: 80%; */
+}
+.imageClass{
+    float: right;
+    margin: 10px;
+    border: 1px solid red;
+    box-shadow: 0 0 5px black;
+
+}
