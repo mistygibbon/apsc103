@@ -2,7 +2,7 @@ import { addTemperatureData } from "./temperature"
 
 let button = document.querySelector("button#addRandomData")
 button.addEventListener("click", addTemperatureData)
-let intervalId = setInterval(addTemperatureData, 500)
+let intervalId = setInterval(addTemperatureData, 1000)
 let buttonStopAuto = document.querySelector("button#stopAuto")
 buttonStopAuto.addEventListener("click", ()=>{clearInterval(intervalId)})
 

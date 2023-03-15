@@ -560,7 +560,7 @@ function hmrAccept(bundle, id) {
 var _temperature = require("./temperature");
 let button = document.querySelector("button#addRandomData");
 button.addEventListener("click", (0, _temperature.addTemperatureData));
-let intervalId = setInterval((0, _temperature.addTemperatureData), 500);
+let intervalId = setInterval((0, _temperature.addTemperatureData), 1000);
 let buttonStopAuto = document.querySelector("button#stopAuto");
 buttonStopAuto.addEventListener("click", ()=>{
     clearInterval(intervalId);
