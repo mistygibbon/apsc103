@@ -1,0 +1,1 @@
+{"mappings":"AAAA,SAAS,SAAS,aAAa,CAAC;AAChC,OAAO,gBAAgB","sources":["src/index.js"],"sourcesContent":["button = document.querySelector(\"button\")\nbutton.addEventListener"],"names":[],"version":3,"file":"index.579125c3.js.map","sourceRoot":"/__parcel_source_root/"}
