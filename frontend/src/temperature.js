@@ -19,7 +19,10 @@ const config = {
             legend: {
               display: false
             }
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+
     },
     plugins: []
 }

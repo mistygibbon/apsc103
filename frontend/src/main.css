@@ -389,3 +389,9 @@ body {
   left: 577px;
   overflow: hidden;
 }
+
+.chartContainer {
+  height: 90%;
+  width: 90%;
+  margin: 5px;
+}
