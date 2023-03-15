@@ -34,7 +34,7 @@ const chart = new Chart(
 
 function addTemperatureData(){
     let rng = Math.floor(Math.random() * 50)
-    data = chart.data
+    let data = chart.data
     data.labels.push(data.labels.at(-1)+1)
     if (data.labels.length>=20){
         data.labels.shift()

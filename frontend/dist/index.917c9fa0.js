@@ -566,11 +566,11 @@ console.log(temperatureData);
 const config = {
     type: "line",
     data: {
-        labels: temperatureData.map((data1)=>data1.time),
+        labels: temperatureData.map((data)=>data.time),
         datasets: [
             {
                 label: "temperature",
-                data: temperatureData.map((data1)=>data1.temperature),
+                data: temperatureData.map((data)=>data.temperature),
                 borderColor: "red",
                 tension: 0.3
             }
@@ -590,7 +590,7 @@ const config = {
 const chart = new (0, _chartJs.Chart)(document.getElementById("temperature"), config);
 function addTemperatureData() {
     let rng = Math.floor(Math.random() * 50);
-    data = chart.data;
+    let data = chart.data;
     data.labels.push(data.labels.at(-1) + 1);
     if (data.labels.length >= 20) data.labels.shift();
     data.datasets[0].data.push(rng);
