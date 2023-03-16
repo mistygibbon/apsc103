@@ -1,20 +1,14 @@
 import { defineConfig } from 'vite'
+const mode = process.env.APP_ENV
 
-export default defineConfig(({ command, mode, ssrBuild }) => {
-    if (command === 'serve') {
-      return {
-        // dev specific config
-        server: {
-            host: '127.0.0.1'
-          }
-      }
-    } else {
-      // command === 'build'
-      return {
-        // build specific config
-        server: {
-            base: "/apsc103/"
-        }
-      }
+export default defineConfig(({ command, mode, ssrBuild }) => ({
+    server: {
+        host: command === "serve" ? '127.0.0.1' : ""
+    },
+    build: {
+        base: mode === "production" ? "/apsc103/" : ""
+    },
+    preview: {
+        https: false
     }
-  })
+  }))
