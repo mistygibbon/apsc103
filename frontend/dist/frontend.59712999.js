@@ -142,13 +142,13 @@
       this[globalName] = mainExports;
     }
   }
-})({"jC2qd":[function(require,module,exports) {
+})({"eYXra":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "890e741a975ef6c8";
+module.bundle.HMR_BUNDLE_ID = "7055c94b59712999";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, globalThis, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -556,51 +556,8 @@ function hmrAccept(bundle, id) {
     });
 }
 
-},{}],"8lqZg":[function(require,module,exports) {
-var _temperature = require("./temperature");
-var _chartManipulation = require("./chartManipulation");
-var _chartJs = require("chart.js");
-let button = document.querySelector("button#addRandomData");
-button.addEventListener("click", ()=>{
-    (0, _chartManipulation.shiftChart)((0, _chartManipulation.addRandomData)((0, _temperature.temperatureChart)), 100).update();
-});
-let intervalId = setInterval((0, _temperature.addTemperatureData), 1000);
-let buttonStopAuto = document.querySelector("button#stopAuto");
-buttonStopAuto.addEventListener("click", ()=>{
-    clearInterval(intervalId);
-}) // let p = document.querySelector("div#timeline-container p#pod")
- // p.style.marginLeft = "10px"
- // let margin = -10
- // function addMargin(){
- //     margin += 1
- //     if (margin >= p.parentElement.clientWidth){margin = -10}
- //     p.style.marginLeft = `${margin}px`
- // }
- // setInterval(addMargin,10)
-;
+},{}],"4M6V8":[function(require,module,exports) {
 
-},{"./temperature":"kdxF4","./chartManipulation":"7n6KV","chart.js":"ipU8D"}],"7n6KV":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "addRandomData", ()=>addRandomData);
-parcelHelpers.export(exports, "shiftChart", ()=>shiftChart);
-var _temperature = require("./temperature");
-var _chartJs = require("chart.js");
-function addRandomData(chart) {
-    let rng = Math.floor(Math.random() * 50);
-    let data = chart.data;
-    data.labels.push(data.labels.at(-1) + 1);
-    data.datasets[0].data.push(rng);
-    console.log(data.labels, data.datasets[0].data);
-    return chart;
-}
-function shiftChart(chart, length = 20) {
-    let data = chart.data;
-    while(data.labels.length >= length)data.labels.shift();
-    while(data.datasets[0].data.length >= length)data.datasets[0].data.shift();
-    return chart;
-}
+},{}]},["eYXra","4M6V8"], "4M6V8", "parcelRequire30ab")
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./temperature":"kdxF4","chart.js":"ipU8D"}]},["jC2qd","8lqZg"], "8lqZg", "parcelRequire30ab")
-
-//# sourceMappingURL=index.975ef6c8.js.map
+//# sourceMappingURL=frontend.59712999.js.map

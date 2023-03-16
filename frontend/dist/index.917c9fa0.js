@@ -560,6 +560,7 @@ function hmrAccept(bundle, id) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "addTemperatureData", ()=>addTemperatureData);
+parcelHelpers.export(exports, "temperatureChart", ()=>temperatureChart);
 var _chartJs = require("chart.js");
 let temperatureData = require("a595f9872dcf5016");
 console.log(temperatureData);
@@ -587,19 +588,19 @@ const config = {
     },
     plugins: []
 };
-const chart = new (0, _chartJs.Chart)(document.getElementById("temperature"), config);
+const temperatureChart = new (0, _chartJs.Chart)(document.getElementById("temperature"), config);
 function addTemperatureData() {
     let rng = Math.floor(Math.random() * 50);
-    let data = chart.data;
+    let data = temperatureChart.data;
     data.labels.push(data.labels.at(-1) + 1);
     if (data.labels.length >= 20) data.labels.shift();
     data.datasets[0].data.push(rng);
     if (data.datasets[0].data.length >= 20) data.datasets[0].data.shift();
     console.log(data.labels, data.datasets[0].data);
-    chart.update("none");
+    temperatureChart.update("none");
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","chart.js":"ipU8D","a595f9872dcf5016":"csKs6"}],"csKs6":[function(require,module,exports) {
+},{"chart.js":"ipU8D","a595f9872dcf5016":"csKs6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"csKs6":[function(require,module,exports) {
 module.exports = JSON.parse('[{"time":0,"temperature":10},{"time":1,"temperature":22},{"time":2,"temperature":15},{"time":3,"temperature":25},{"time":4,"temperature":22},{"time":5,"temperature":34},{"time":6,"temperature":28}]');
 
 },{}]},["80bEI","kdxF4"], "kdxF4", "parcelRequire30ab")

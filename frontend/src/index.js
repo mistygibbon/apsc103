@@ -1,7 +1,9 @@
-import { addTemperatureData } from "./temperature"
+import { addTemperatureData, temperatureChart} from "./temperature"
+import { addRandomData, shiftChart } from "./chartManipulation"
+import {Chart} from 'chart.js';
 
 let button = document.querySelector("button#addRandomData")
-button.addEventListener("click", addTemperatureData)
+button.addEventListener("click", ()=>{shiftChart(addRandomData(temperatureChart),100).update()})
 let intervalId = setInterval(addTemperatureData, 1000)
 let buttonStopAuto = document.querySelector("button#stopAuto")
 buttonStopAuto.addEventListener("click", ()=>{clearInterval(intervalId)})

@@ -27,14 +27,14 @@ const config = {
     plugins: []
 }
 
-const chart = new Chart(
+const temperatureChart = new Chart(
     document.getElementById("temperature"),
     config
 )
 
 function addTemperatureData(){
     let rng = Math.floor(Math.random() * 50)
-    let data = chart.data
+    let data = temperatureChart.data
     data.labels.push(data.labels.at(-1)+1)
     if (data.labels.length>=20){
         data.labels.shift()
@@ -44,7 +44,7 @@ function addTemperatureData(){
         data.datasets[0].data.shift()
     }
     console.log(data.labels, data.datasets[0].data)
-    chart.update('none')
+    temperatureChart.update('none')
 }
 
-export {addTemperatureData}
+export {addTemperatureData, temperatureChart}
