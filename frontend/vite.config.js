@@ -5,9 +5,9 @@ export default defineConfig(({ command, mode, ssrBuild }) => ({
     server: {
         host: command === "serve" ? '127.0.0.1' : ""
     },
-    build: {
-        base: mode === "production" ? "/apsc103/" : ""
-    },
+
+    base: mode === "production" ? "/apsc103/" : "",
+    
     preview: {
         https: false
     }
