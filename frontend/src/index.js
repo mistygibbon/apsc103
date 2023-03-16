@@ -4,7 +4,7 @@ import {Chart} from 'chart.js';
 
 let button = document.querySelector("button#addRandomData")
 button.addEventListener("click", ()=>{shiftChart(addRandomData(temperatureChart),100).update()})
-let intervalId = setInterval(addTemperatureData, 1000)
+let intervalId = setInterval(()=>{shiftChart(addRandomData(temperatureChart),100).update()}, 1000)
 let buttonStopAuto = document.querySelector("button#stopAuto")
 buttonStopAuto.addEventListener("click", ()=>{clearInterval(intervalId)})
 

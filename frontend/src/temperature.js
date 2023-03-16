@@ -1,6 +1,5 @@
 import {Chart} from 'chart.js';
-
-let temperatureData = require('./temperature.json')
+import temperatureData from './temperature.json'
 console.log(temperatureData);
 
 const config = {
@@ -19,6 +18,9 @@ const config = {
             legend: {
               display: false
             }
+        },
+        animation: {
+            duration: 200
         },
         responsive: true,
         maintainAspectRatio: false,
