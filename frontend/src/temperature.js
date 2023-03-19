@@ -20,7 +20,7 @@ const config = {
             }
         },
         animation: {
-            duration: 200
+            duration: 250
         },
         responsive: true,
         maintainAspectRatio: false,
