@@ -1,6 +1,6 @@
 # APSC 103 Project - Hyperloop Digital GUI
 
-https://mistygibbon.github.io/apsc103
+https://mistygibbon.github.io/apsc103/dashboard.html
 
 ## Folders
 \_\_pycache\_\_/
