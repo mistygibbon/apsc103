@@ -1,0 +1,124 @@
+*{
+    box-sizing: border-box;
+    border: 1px solid black;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.container{
+    height: 99vh;
+    background-color: rgba(255,255,255,1);
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.titleLogo{
+    position: absolute;
+    top: 1vi;
+    right: 20vi;
+
+    width: 40vi;
+    height: 8vi;   
+
+    background: url(QHDT2.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.sidebarContainer{
+    width: 11vw;
+    height: 100vh;
+    background-color: rgb(139, 27, 2);
+    position: absolute;
+    border-bottom-right-radius: 5%;
+    border-top-right-radius: 5%;
+    box-shadow: 1vh 1vh 2vh rgba(0,0,0, 0.25);
+}
+.sidebarlogo{
+    position: absolute;
+    top: 2vi;
+    left: 2vi;
+    width: 7vi;
+    height: 7vi;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url(QHDT.jpg);
+    overflow: hidden;
+    border-radius: 100%;
+    
+}
+
+.contentContainer{
+    width: 85vw;
+    height: 80vh;
+    position:absolute;
+    top: 17vh;
+    right: 0;
+    background-color: rgba(195, 218, 239, 0.3);
+    border-bottom-left-radius: 5vh;
+    border-top-left-radius: 5vh;
+
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 2vi;
+    padding: 3vi;
+}
+
+.contentBox{
+    background-color: white;
+    border-radius: 2vh;
+    box-shadow: 0 1vh 2vh rgba(0, 0,0,0.25);
+}
+
+.currentPage{
+    position: absolute;
+    left: -3vi;
+    top: -0.5vi;
+    width: 180%;
+    height: 160%;
+    background-color: rgb(250, 200, 10);
+    z-index: -1;
+    border-radius: 1vi 3vi 3vi 1vi;
+    font-size: 10px;
+}
+
+.pageButtons{
+    position: absolute  ;
+    height: 3vh;
+    width: 6vw;
+    left: 5vw;
+    background-color: rgba(0, 0, 0,0);
+    color: white;
+    font-size: 1vi;
+    text-align: left;
+    transition: 0.8s;
+    z-index: +1;
+}
+
+button{
+    cursor: pointer;
+}
+
+button::before{
+    content: "";
+    position: absolute;
+    left: -3vi;
+    top: -0.5vi;
+    width: 0%;
+    height: 160%;
+    background-color: rgb(250, 200, 10);
+    z-index: -1;
+    transition: 0.8s;
+    border-radius: 1vi 3vi 3vi 1vi;
+    color: black;
+    font-size: 10px;
+    
+}
+button:hover::before{
+width:180%;
+}
