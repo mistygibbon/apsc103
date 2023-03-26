@@ -1,0 +1,9 @@
+[
+    { "time": 0, "value": 10 },
+    { "time": 1, "value": 22 },
+    { "time": 2, "value": 15 },
+    { "time": 3, "value": 25 },
+    { "time": 4, "value": 22 },
+    { "time": 5, "value": 34 },
+    { "time": 6, "value": 28 }
+]
