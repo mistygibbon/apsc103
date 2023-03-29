@@ -1,4 +1,4 @@
-import {Chart} from 'chart.js';
+import {Chart} from 'chart.js/auto';
 import temperatureData from './temperature.json'
 console.log(temperatureData);
 

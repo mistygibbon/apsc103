@@ -1,12 +1,24 @@
-import { addTemperatureData, temperatureChart} from "./temperature"
-import { addRandomData, shiftChart } from "./chartManipulation"
+// import { addTemperatureData, temperatureChart} from "./temperature.js"
+import { addRandomData, shiftChart, createChart, createChartControls} from "./chartManipulation"
 import {Chart} from 'chart.js';
 
-let button = document.querySelector("button#addRandomData")
-button.addEventListener("click", ()=>{shiftChart(addRandomData(temperatureChart),100).update()})
-let intervalId = setInterval(()=>{shiftChart(addRandomData(temperatureChart),100).update()}, 1000)
+console.log("Script loaded")
+let temperatureChart = await createChart("temperature")
+let velocityChart = await createChart("velocity")
+
+createChartControls(temperatureChart)
+createChartControls(velocityChart)
+
+console.log(temperatureChart)
+// let button = document.querySelector("button#addRandomData")
+// button.addEventListener("click", ()=>{shiftChart(addRandomData(temperatureChart),100).update()})
+let chartUpdate = setInterval(()=>{
+    shiftChart(addRandomData(velocityChart),100).update()
+    shiftChart(addRandomData(temperatureChart),100).update()
+}, 1000)
+
 let buttonStopAuto = document.querySelector("button#stopAuto")
-buttonStopAuto.addEventListener("click", ()=>{clearInterval(intervalId)})
+buttonStopAuto.addEventListener("click", ()=>{clearInterval(chartUpdate)})
 
 // let p = document.querySelector("div#timeline-container p#pod")
 // p.style.marginLeft = "10px"
