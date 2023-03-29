@@ -12,6 +12,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => ({
     build: {
         rollupOptions: {
           input: {
+            app: fileURLToPath(new URL('./index.html', import.meta.url)),
             appDashboard: fileURLToPath(new URL('./dashboard.html', import.meta.url)),
             appGraphs: fileURLToPath(new URL('./graphs.html', import.meta.url)),
             appMetrics: fileURLToPath(new URL('./metrics.html', import.meta.url)),
