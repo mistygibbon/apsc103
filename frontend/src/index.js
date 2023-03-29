@@ -3,11 +3,19 @@ import { addRandomData, shiftChart, createChart, createChartControls} from "./ch
 import {Chart} from 'chart.js';
 
 console.log("Script loaded")
-let temperatureChart = await createChart("temperature")
-let velocityChart = await createChart("velocity")
+let temperatureChart 
+createChart("temperature").then((response)=>{
+    console.log(response)
+    temperatureChart = response
+    createChartControls(temperatureChart)
+})
+let velocityChart
+createChart("velocity").then((response)=>{
+    console.log(response)
+    velocityChart = response
+    createChartControls(velocityChart)
+})
 
-createChartControls(temperatureChart)
-createChartControls(velocityChart)
 
 console.log(temperatureChart)
 // let button = document.querySelector("button#addRandomData")
