@@ -1,5 +1,7 @@
 // import {temperatureChart} from "./temperature.js"
 import {Chart, elements} from 'chart.js/auto';
+import temperatureData from './data/temperature.json'
+
 
 async function createChart(name, data){
     
@@ -45,6 +47,7 @@ async function fetchData(name) {
         }
     ).catch((err) => {
         console.log(err);
+        return temperatureData
     })
 }
 
@@ -52,7 +55,7 @@ function createChartControls(chart){
     let addRandomDataButton = document.createElement("button")
     addRandomDataButton.innerText = "Add random data"
     addRandomDataButton.addEventListener("click", ()=>{
-        shiftChart(addRandomData(chart), 100).update()
+        shiftChart(addRandomData(chart), 50).update()
     })
     chart.canvas.parentElement.insertAdjacentElement("afterend",addRandomDataButton)
 }

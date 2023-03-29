@@ -17,10 +17,10 @@
 .titleLogo{
     position: absolute;
     top: 1vi;
-    right: 20vi;
+    right: 30vi;
 
-    width: 40vi;
-    height: 8vi;   
+    width: 25vi;
+    height: 5vi;   
 
     background: url(../images/QHDT2.jpg);
     background-size: cover;
@@ -54,11 +54,11 @@
 
 .contentContainer{
     width: 85vw;
-    height: 80vh;
+    height: 85vh;
     position:absolute;
-    top: 17vh;
+    top: 13vh;
     right: 0;
-    background-color: rgba(195, 218, 239, 0.3);
+    background-color: rgba(224, 232, 239, 0.452);
     border-bottom-left-radius: 5vh;
     border-top-left-radius: 5vh;
 
@@ -66,7 +66,7 @@
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 2vi;
-    padding: 3vi;
+    padding: 2vi;
 }
 
 .contentBox{
@@ -109,7 +109,7 @@ button{
     cursor: pointer;
 }
 
-button::before{
+.pageButtons::before{
     content: "";
     position: absolute;
     left: -3vi;
@@ -124,6 +124,6 @@ button::before{
     font-size: 10px;
     
 }
-button:hover::before{
+.pageButtons:hover::before{
 width:180%;
 }
