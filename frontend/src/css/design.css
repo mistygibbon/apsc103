@@ -4,6 +4,7 @@
     margin: 0;
     padding: 0;
     border: 0;
+    font-family: system-ui, sans-serif;
 }
 
 .container{
@@ -76,17 +77,13 @@
     padding: 10px;
 }
 
-.contentBox > div {
-    height: 90%;
-}
-
 .currentPage{
     position: absolute;
     left: -3vi;
     top: -0.5vi;
     width: 180%;
     height: 160%;
-    background-color: rgb(250, 200, 10);
+    background-color: rgb(229, 185, 55);
     z-index: -1;
     border-radius: 1vi 3vi 3vi 1vi;
     font-size: 10px;
@@ -116,7 +113,7 @@ button{
     top: -0.5vi;
     width: 0%;
     height: 160%;
-    background-color: rgb(250, 200, 10);
+    background-color: rgb(229, 185, 55);
     z-index: -1;
     transition: 0.8s;
     border-radius: 1vi 3vi 3vi 1vi;
@@ -126,4 +123,45 @@ button{
 }
 .pageButtons:hover::before{
 width:180%;
+}
+
+.mainButton{
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    margin: 10px;
+    color: white;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    transition: all 0.3s ease-in-out;
+    font-size: large;
+    font-weight: bold;
+}
+
+.mainButton:hover{
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.15);
+    filter: brightness(75%);
+    transition: all 0.3s ease-in-out;
+}
+
+.mainButton:active{
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    filter: brightness(100%);
+    transition: all 0.1s ease-in-out;
+}
+
+#startTripButton{
+    background-color: rgb(15, 169, 20);
+}
+
+#stopTripButton{
+    background-color: rgb(169, 15, 15);
+}
+
+/* Chart dependent styling */
+.contentBox > div.chartContainer {
+    height: 90%;
+}
+
+.chartControl {
+    margin: 5px;
 }

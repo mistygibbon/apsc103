@@ -1,6 +1,10 @@
 // import {temperatureChart} from "./temperature.js"
 import {Chart, elements} from 'chart.js/auto';
+
+// This json file is used for default data when fetch fails
 import temperatureData from './data/temperature.json'
+
+import {addRandomDataButton, pauseAutoUpdateButton, resumeAutoUpdateButton, viewElementsDropdown, removeLastDataButton} from './components/chartControlsComponents'
 
 
 async function createChart(name, data){
@@ -36,7 +40,16 @@ async function createChart(name, data){
         },
         plugins: []
     }
-    return new Chart(document.getElementById(name), config)
+    let chart = new Chart(document.getElementById(name), config)
+    chart.visiblePoints = 50
+    chart.autoUpdateInterval = 1000
+    Chart.prototype.autoAddDataFunction = function(){addRandomData(this)}
+    chart.autoAddData = setInterval(()=>{chart.autoAddDataFunction()}, chart.autoUpdateInterval)
+
+    Chart.prototype.autoUpdateFunction = function(){shiftChart(this,this.visiblePoints).update()}
+    chart.autoUpdate = setInterval(()=>{chart.autoUpdateFunction()}, chart.autoUpdateInterval)
+
+    return chart
 }
 
 async function fetchData(name) {
@@ -52,12 +65,17 @@ async function fetchData(name) {
 }
 
 function createChartControls(chart){
-    let addRandomDataButton = document.createElement("button")
-    addRandomDataButton.innerText = "Add random data"
-    addRandomDataButton.addEventListener("click", ()=>{
-        shiftChart(addRandomData(chart), 50).update()
+
+    let buttons = [
+            pauseAutoUpdateButton, 
+            viewElementsDropdown, 
+            // addRandomDataButton, 
+            // removeLastDataButton
+        ].reverse()
+    buttons.forEach((button)=>{
+        console.log(button)
+        chart.canvas.parentElement.parentElement.appendChild(button(chart))
     })
-    chart.canvas.parentElement.insertAdjacentElement("afterend",addRandomDataButton)
 }
 
 
@@ -67,6 +85,13 @@ function addRandomData(chart){
     data.labels.push(data.labels.at(-1)+1)
     data.datasets[0].data.push(num)
     console.log(data.labels, data.datasets[0].data)
+    return chart
+}
+
+function removeLastData(chart){
+    let data = chart.data
+    data.labels.pop()
+    data.datasets[0].data.pop()
     return chart
 }
 
@@ -81,4 +106,4 @@ function shiftChart(chart, length=20){
     return chart
 }
 
-export{addRandomData, shiftChart, createChart, createChartControls}
+export{addRandomData, shiftChart, createChart, createChartControls, removeLastData}

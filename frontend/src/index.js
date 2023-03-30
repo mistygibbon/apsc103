@@ -20,10 +20,10 @@ createChart("velocity").then((response)=>{
 console.log(temperatureChart)
 // let button = document.querySelector("button#addRandomData")
 // button.addEventListener("click", ()=>{shiftChart(addRandomData(temperatureChart),100).update()})
-let chartUpdate = setInterval(()=>{
-    shiftChart(addRandomData(velocityChart),100).update()
-    shiftChart(addRandomData(temperatureChart),100).update()
-}, 1000)
+// let chartUpdate = setInterval(()=>{
+//     shiftChart(addRandomData(velocityChart),50).update()
+//     shiftChart(addRandomData(temperatureChart),50).update()
+// }, 1000)
 
 let buttonStopAuto = document.querySelector("button#stopAuto")
 buttonStopAuto.addEventListener("click", ()=>{clearInterval(chartUpdate)})
