@@ -3,21 +3,35 @@ import { addRandomData, shiftChart, createChart, createChartControls} from "./ch
 import {Chart} from 'chart.js';
 
 console.log("Script loaded")
-let temperatureChart 
-createChart("temperature").then((response)=>{
-    console.log(response)
-    temperatureChart = response
-    createChartControls(temperatureChart)
-})
-let velocityChart
-createChart("velocity").then((response)=>{
-    console.log(response)
-    velocityChart = response
-    createChartControls(velocityChart)
-})
+
+const chartNames = ["temperature", "velocity"]
+let chartContainers = document.querySelectorAll("div.chartContainer")
+chartContainers.forEach(chartContainer => {
+    let chartCanvas = document.createElement("canvas")
+    let chartName = chartNames.shift()
+    chartContainer.appendChild(chartCanvas)
+    createChart(chartName,undefined,chartCanvas).then((response)=>{
+        console.log(response)
+        createChartControls(response)
+    })
+});
+
+// let temperatureChart
+
+// createChart("temperature").then((response)=>{
+//     console.log(response)
+//     temperatureChart = response
+//     createChartControls(temperatureChart)
+// })
+// let velocityChart
+// createChart("velocity").then((response)=>{
+//     console.log(response)
+//     velocityChart = response
+//     createChartControls(velocityChart)
+// })
 
 
-console.log(temperatureChart)
+// console.log(temperatureChart)
 // let button = document.querySelector("button#addRandomData")
 // button.addEventListener("click", ()=>{shiftChart(addRandomData(temperatureChart),100).update()})
 // let chartUpdate = setInterval(()=>{
@@ -25,8 +39,8 @@ console.log(temperatureChart)
 //     shiftChart(addRandomData(temperatureChart),50).update()
 // }, 1000)
 
-let buttonStopAuto = document.querySelector("button#stopAuto")
-buttonStopAuto.addEventListener("click", ()=>{clearInterval(chartUpdate)})
+// let buttonStopAuto = document.querySelector("button#stopAuto")
+// buttonStopAuto.addEventListener("click", ()=>{clearInterval(chartUpdate)})
 
 // let p = document.querySelector("div#timeline-container p#pod")
 // p.style.marginLeft = "10px"
