@@ -4,22 +4,22 @@ import {Chart, elements} from 'chart.js/auto';
 // This json file is used for default data when fetch fails
 import temperatureData from './data/temperature.json'
 
-import {addRandomDataButton, pauseAutoUpdateButton, resumeAutoUpdateButton, viewElementsDropdown, removeLastDataButton} from './components/chartControlsComponents'
+import {
+    addRandomDataButton, 
+    pauseAutoUpdateButton, 
+    resumeAutoUpdateButton, 
+    viewElementsDropdown, 
+    removeLastDataButton,
+    chartSelectionDropdown,
+} from './components/chartControlsComponents'
 
-
-async function createChart(name, data){
-    
-    if (data===undefined){
-        data = await fetchData(name)
-        console.log(data)
-    }
-
+function initializeConfig(name, data){
     const config = {
         type: 'line',
         data: {
             labels: data.map(entry=>entry.time),
             datasets: [{
-                label: "name",
+                label: name,
                 data: data.map(entry=>entry.value),
                 borderColor: "red",
                 tension: 0.3
@@ -40,7 +40,24 @@ async function createChart(name, data){
         },
         plugins: []
     }
-    let chart = new Chart(document.getElementById(name), config)
+    return config
+}
+
+async function createChart(name, data, canvas){
+    
+    if (data===undefined){
+        data = await fetchData(name)
+        console.log(data)
+    }
+
+    const config = initializeConfig(name, data)
+
+    if (canvas == undefined){
+        var chart = new Chart(document.getElementById(name), config)
+    } else {
+        var chart = new Chart(canvas, config)
+    }
+    chart.name = name
     chart.visiblePoints = 50
     chart.autoUpdateInterval = 1000
     Chart.prototype.autoAddDataFunction = function(){addRandomData(this)}
@@ -65,13 +82,13 @@ async function fetchData(name) {
 }
 
 function createChartControls(chart){
-
     let buttons = [
+            chartSelectionDropdown,
             pauseAutoUpdateButton, 
             viewElementsDropdown, 
             // addRandomDataButton, 
             // removeLastDataButton
-        ].reverse()
+        ]
     buttons.forEach((button)=>{
         console.log(button)
         chart.canvas.parentElement.parentElement.appendChild(button(chart))

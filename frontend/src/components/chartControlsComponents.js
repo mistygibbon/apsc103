@@ -1,5 +1,31 @@
 import { shiftChart, addRandomData, removeLastData } from "../chartManipulation"
 
+function chartSelectionDropdown(chart){
+    let select = document.createElement("select")
+    select.name = "Number of Elements"
+    select.classList = "chartControl"
+    let charts = ["Velocity", "Temperature", "Distance Travelled", "Acceleration", "Pressure"]
+    charts.forEach((chartName)=>{
+        const tempOption = document.createElement("option")
+        tempOption.innerText = chartName
+        tempOption.setAttribute("value", chartName)
+        if (camelize(chartName)==chart.name){
+            tempOption.setAttribute("selected", "selected")
+        }
+        select.appendChild(tempOption)
+    })
+    select.addEventListener("change",(e)=>{
+        newChartName = e.target.value
+        chart.name = newChartName
+        
+    })
+    return select
+}
+
+var camelize = function camalize(str) {
+    return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+}
+
 function addRandomDataButton(chart){
     let button = document.createElement("button")
     button.innerText = "Add random data"
@@ -71,4 +97,4 @@ function viewElementsDropdown(chart, maxItems=100, defaultItems=50){
     return select
 }
 
-export{addRandomDataButton, pauseAutoUpdateButton, resumeAutoUpdateButton, viewElementsDropdown, removeLastDataButton}
+export{addRandomDataButton, pauseAutoUpdateButton, resumeAutoUpdateButton, viewElementsDropdown, removeLastDataButton, chartSelectionDropdown}
