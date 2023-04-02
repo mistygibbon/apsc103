@@ -13,6 +13,8 @@ import {
     chartSelectionDropdown,
 } from './components/chartControlsComponents'
 
+
+
 function initializeConfig(name, data){
     const config = {
         type: 'line',
@@ -42,7 +44,6 @@ function initializeConfig(name, data){
     }
     return config
 }
-
 async function createChart(name, data, canvas){
     
     if (data===undefined){

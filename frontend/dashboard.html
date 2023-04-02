@@ -8,6 +8,16 @@
     <title>Dashboard - Hyperloop GUI</title>
 </head>
 <body>
+    <style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 1,
+          'wght' 700,
+          'GRAD' 200,
+          'opsz' 48
+        }
+        </style>
+
     <div class="container">
         <div class="titleLogo">
         </div>
@@ -19,19 +29,18 @@
             </button>
             <button onclick="location.href='metrics.html'" class="pageButtons" style="top: 20vi;">Metrics</button> 
             <button onclick="location.href='graphs.html'" class="pageButtons" style="top: 25vi;">Graphs</button> 
-            <button onclick="location.href='settings.html'" class="pageButtons" style="top: 30vi;">Settings</button> 
+            <button onclick="location.href='settings.html'" class="pageButtons" style="top: 30vi;">Settings</button>
+            
+            <div class="pageImages"><img src="src/images/dashboard.png" alt=""></div>
+            <div class="pageImages" style="top:19.8vi"><img src="src/images/metrics.png" alt=""></div>
+            <div class="pageImages" style="top:24.8vi"><img src="src/images/graphs.png" alt=""></div>
+            <div class="pageImages" style="top:29.8vi"><img src="src/images/settings.png" alt=""></div>
+
         </div>
         <div class="contentContainer">
             <div class="contentBox" style="grid-column-start: 1; grid-column-end:5; grid-row-start: 1; grid-row-end:3;">
                 <button id="startTripButton" class="mainButton">Start trip</button>
                 <button id="stopTripButton" class="mainButton">Stop trip</button>
-                <h2>Progress bar</h2>
-                <div>
-                    <div></div>
-                </div>
-                <h1>Key metrics</h1>
-                <p>Velocity</p>
-
             </div>
             <div class="contentBox" style="grid-column-start: 5; grid-column-end:8; grid-row-start: 1; grid-row-end:2;">
                 <div class="chartContainer">

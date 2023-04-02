@@ -5,7 +5,9 @@
     padding: 0;
     border: 0;
     font-family: system-ui, sans-serif;
+    background-size: cover;
 }
+
 
 h1 {
     font-size: 36px;
@@ -100,7 +102,7 @@ h2 {
 }
 
 .pageButtons{
-    position: absolute  ;
+    position: absolute;
     height: 3vh;
     width: 6vw;
     left: 5vw;
@@ -111,7 +113,14 @@ h2 {
     transition: 0.8s;
     z-index: +1;
 }
-
+.pageImages{
+    width: 1vi;
+    height: 1vi;
+    z-index: +2;
+    position: absolute;
+    left: 2.5vw;
+    top: 14.8vi;
+}
 button{
     cursor: pointer;
 }
@@ -136,26 +145,26 @@ width:180%;
 }
 
 .mainButton{
-    width: 200px;
-    height: 50px;
-    border-radius: 10px;
-    margin: 10px;
+    width:  6vi;
+    height: 2vi;
+    border-radius: .5vi;
+    margin: .1vi;
     color: white;
     background-color: gray;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    box-shadow: 0 .1vi .2vi rgba(0,0,0,0.15);
     transition: all 0.3s ease-in-out;
     font-size: large;
     font-weight: bold;
 }
 
 .mainButton:hover{
-    box-shadow: 5px 5px 5px rgba(0,0,0,0.15);
+    box-shadow: .1vi .1vi .1vi rgba(0,0,0,0.15);
     filter: brightness(80%);
     transition: all 0.3s ease-in-out;
 }
 
 .mainButton:active{
-    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    box-shadow: 0 .5vi .5vi rgba(0,0,0,0.15);
     filter: brightness(70%);
     transition: all 0.1s ease-in-out;
 }
@@ -169,7 +178,7 @@ width:180%;
 }
 
 .optionsContainer{
-    max-width: 600px;
+    max-width: 20vi;
     margin: auto;
 }
 
@@ -177,7 +186,7 @@ div.option {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 6px;
+    margin: 1vi;
 }
 
 div.option > .optionText {
@@ -191,7 +200,7 @@ hr {
     margin-left: auto;
     margin-right: auto;
     border-style: inset;
-    border-width: 0.5px;
+    border-width: 0.5vi;
     color: gray;
   }
 
@@ -201,5 +210,5 @@ hr {
 }
 
 .chartControl {
-    margin: 5px;
+    margin: .5vi;
 }
