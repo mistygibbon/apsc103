@@ -1,5 +1,5 @@
 // import {temperatureChart} from "./temperature.js"
-import {Chart, elements} from 'chart.js/auto';
+import {Chart, elements, scales} from 'chart.js/auto';
 
 // This json file is used for default data when fetch fails
 import temperatureData from './data/temperature.json'
@@ -13,7 +13,14 @@ import {
     chartSelectionDropdown,
 } from './components/chartControlsComponents'
 
-function initializeConfig(name, data){
+import {data as metricsData} from './backendAPI'
+
+async function initializeConfig(name, data){
+    if (data===undefined){
+        // data = await fetchData(name)
+        data = [{time:0, value:0}]
+        console.log(data)
+    }
     const config = {
         type: 'line',
         data: {
@@ -36,22 +43,32 @@ function initializeConfig(name, data){
             },
             responsive: true,
             maintainAspectRatio: false,
-    
+            interaction: {
+                axis: 'x',
+                mode: 'nearest',
+                intersect: false
+            },
+            scales: {
+                x: {
+                    type: "linear",
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
         },
         plugins: []
     }
     return config
 }
 
+async function replaceData(chart, data){
+    chart.data.labels = data.map(entry=>entry.time)
+    chart.data.datasets[0].data = data.map(entry=>entry.value)
+}
+
 async function createChart(name, data, canvas){
-    
-    if (data===undefined){
-        data = await fetchData(name)
-        console.log(data)
-    }
-
-    const config = initializeConfig(name, data)
-
+    const config = await initializeConfig(name, data)
     if (canvas == undefined){
         var chart = new Chart(document.getElementById(name), config)
     } else {
@@ -60,10 +77,10 @@ async function createChart(name, data, canvas){
     chart.name = name
     chart.visiblePoints = 50
     chart.autoUpdateInterval = 1000
-    Chart.prototype.autoAddDataFunction = function(){addRandomData(this)}
+    Chart.prototype.autoAddDataFunction = function(){replaceData(this, getMetricsData(this.name, this.visiblePoints))}
     chart.autoAddData = setInterval(()=>{chart.autoAddDataFunction()}, chart.autoUpdateInterval)
 
-    Chart.prototype.autoUpdateFunction = function(){shiftChart(this,this.visiblePoints).update()}
+    Chart.prototype.autoUpdateFunction = function(){this.update()}
     chart.autoUpdate = setInterval(()=>{chart.autoUpdateFunction()}, chart.autoUpdateInterval)
 
     return chart
@@ -101,7 +118,7 @@ function addRandomData(chart){
     let data = chart.data
     data.labels.push(data.labels.at(-1)+1)
     data.datasets[0].data.push(num)
-    console.log(data.labels, data.datasets[0].data)
+    // console.log(data.labels, data.datasets[0].data)
     return chart
 }
 
@@ -123,4 +140,9 @@ function shiftChart(chart, length=20){
     return chart
 }
 
-export{addRandomData, shiftChart, createChart, createChartControls, removeLastData}
+function getMetricsData(name,size){
+    console.log(name,size)
+    return metricsData[name].slice(-size)
+}
+
+export{addRandomData, shiftChart, createChart, createChartControls, removeLastData, initializeConfig, replaceData, getMetricsData}

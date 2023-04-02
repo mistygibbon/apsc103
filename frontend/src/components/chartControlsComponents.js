@@ -1,4 +1,4 @@
-import { shiftChart, addRandomData, removeLastData } from "../chartManipulation"
+import { shiftChart, addRandomData, removeLastData, initializeConfig, replaceData, getMetricsData } from "../chartManipulation"
 
 function chartSelectionDropdown(chart){
     let select = document.createElement("select")
@@ -8,16 +8,17 @@ function chartSelectionDropdown(chart){
     charts.forEach((chartName)=>{
         const tempOption = document.createElement("option")
         tempOption.innerText = chartName
-        tempOption.setAttribute("value", chartName)
+        tempOption.setAttribute("value", camelize(chartName))
         if (camelize(chartName)==chart.name){
             tempOption.setAttribute("selected", "selected")
         }
         select.appendChild(tempOption)
     })
     select.addEventListener("change",(e)=>{
-        newChartName = e.target.value
+        let newChartName = e.target.value
         chart.name = newChartName
-        
+        replaceData(chart, getMetricsData(newChartName,chart.visiblePoints))
+        chart.update()
     })
     return select
 }
@@ -76,11 +77,11 @@ function resumeAutoUpdateButton(chart){
     return button
 }
 
-function viewElementsDropdown(chart, maxItems=100, defaultItems=50){
+function viewElementsDropdown(chart, maxItems=500, defaultItems=50){
     let select = document.createElement("select")
     select.name = "Number of Elements"
     select.classList = "chartControl"
-    for (let i = 1; i < maxItems+1; i++){
+    for (let i = 10; i < maxItems+1; i+=10){
         const tempOption = document.createElement("option")
         tempOption.innerText = i
         tempOption.setAttribute("value", i)

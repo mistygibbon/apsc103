@@ -1,8 +1,12 @@
 // import { addTemperatureData, temperatureChart} from "./temperature.js"
 import { addRandomData, shiftChart, createChart, createChartControls} from "./chartManipulation"
+import {  } from "./dataStorage";
 import {Chart} from 'chart.js';
+import { feedTestData } from "./backendAPI";
 
 console.log("Script loaded")
+
+
 
 const chartNames = ["temperature", "velocity"]
 let chartContainers = document.querySelectorAll("div.chartContainer")
