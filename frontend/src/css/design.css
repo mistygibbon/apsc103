@@ -258,7 +258,7 @@ hr {
 .progressBar{
     display: flexbox;
     position: absolute;
-    top: 49vi;
+    top: 89.3vh;
     left: 17vi;
     z-index: +1;
     width: 20vi;
