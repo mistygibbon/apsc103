@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./src/images/favicon.ico">
     <link rel="stylesheet" href="src/css/design.css">
     <title>Dashboard - Hyperloop GUI</title>
 </head>
@@ -19,6 +20,8 @@
         </style>
 
     <div class="container">
+        <div class="progressBar">34%</div>
+        <div class="distanceanimation"></div>
         <div class="titleLogo">
         </div>
         <div class="sidebarContainer">
@@ -41,6 +44,12 @@
             <div class="contentBox" style="grid-column-start: 1; grid-column-end:5; grid-row-start: 1; grid-row-end:3;">
                 <button id="startTripButton" class="mainButton">Start trip</button>
                 <button id="stopTripButton" class="mainButton">Stop trip</button>
+                <h2>Progress bar</h2>
+                <div>
+                    <div></div>
+                </div>
+                <h1>Key metrics</h1>
+                <p>Velocity: 1</p>
             </div>
             <div class="contentBox" style="grid-column-start: 5; grid-column-end:8; grid-row-start: 1; grid-row-end:2;">
                 <div class="chartContainer">
