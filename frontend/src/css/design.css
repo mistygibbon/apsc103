@@ -14,16 +14,16 @@
 
 
 h1 {
-    font-size: 2.5em;
+    font-size: 2rem;
     margin: 1rem;
 }
 
 h2 {
-    font-size: 2em;
+    font-size: 1.75rem;
     margin: .5rem;
 }
 h4{
-    font-size: 1em;
+    font-size: 1rem;
     margin: 0;
 }
 p{
@@ -57,8 +57,8 @@ p{
     height: 100vh;
     background-color: rgb(139, 27, 2);
     position: absolute;
-    border-bottom-right-radius: 5%;
-    border-top-right-radius: 5%;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
     box-shadow: 1vh 1vh 2vh rgba(0,0,0, 0.25);
 }
 .sidebarlogo{
@@ -128,7 +128,8 @@ p{
     background-color: white;
     border-radius: 2vh;
     box-shadow: 0 1vh 2vh rgba(0, 0,0,0.25);
-    padding: 1vi;
+    padding: 2% 2%;
+    overflow-y: scroll;
 }
 
 .currentPage{
@@ -188,10 +189,9 @@ width:180%;
 
     
 .mainButton{
-    width: 12vi;
-    height: 3vi;
-    border-radius: 1vi;
-    margin: .1vi;
+    padding: 0.5rem 2.5rem;
+    border-radius: 10px;
+    margin: 0.5rem;
     color: white;
     background-color: gray;
     box-shadow: 0 .1vi .2vi rgba(0,0,0,0.15);
@@ -221,7 +221,7 @@ width:180%;
 }
 
 .optionsContainer{
-    max-width: 20vi;
+    max-width: 30rem;
     margin: auto;
 }
 
@@ -243,7 +243,7 @@ hr {
     margin-left: auto;
     margin-right: auto;
     border-style: inset;
-    border-width: 0.5vi;
+    border-width: 0.5px;
     color: gray;
   }
 
@@ -253,7 +253,10 @@ hr {
 }
 
 .chartControl {
-    margin: .5vi;
+    height: 8%;
+    margin: 0.5% 0.5rem;
+    padding: 0 0.25rem;
+    border-radius: 0.2rem;
 }
 .progressBar{
     display: flexbox;
