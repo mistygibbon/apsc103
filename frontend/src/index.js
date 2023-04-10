@@ -30,14 +30,12 @@ if (window.location.href.match(/\.html$/)){ // Multi page mode if url contains .
     console.log(config.pages["settings"])
     addEventListener("hashchange", async (event) => {
         let pageName = location.hash.substring(1)
-        await showPage(pageName)
-        postRender()
+        showPage(pageName).then(()=>{postRender()})
     });
     if (location.hash == ""){location.hash = "dashboard"}
     else {
         let pageName = location.hash.substring(1)
-        await showPage(pageName)
-        postRender()
+        showPage(pageName).then(()=>{postRender()})
     }
 }
 
