@@ -5,7 +5,7 @@ import {Chart} from 'chart.js';
 import { feedTestMetric } from "./backendAPI";
 import { showPage } from "./render";
 import { config } from "./config";
-import { exportDataButton } from "./components/settingsComponents";
+import { clearLocalStorageButton, exportDataButton } from "./components/settingsComponents";
 
 console.log("Script loaded")
 
@@ -48,6 +48,7 @@ function postRender(){
     } else if (pageName=="settings"){
         let div = document.querySelector("div.optionsContainer")
         div.appendChild(exportDataButton())
+        div.appendChild(clearLocalStorageButton())
     }
 }
 

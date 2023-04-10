@@ -1,6 +1,6 @@
-import dashboard from './templates/dashboard.html'
-import graphs from './templates/graphs.html'
-import settings from './templates/settings.html'
+import dashboard from './templates/dashboard.htm'
+import graphs from './templates/graphs.htm'
+import settings from './templates/settings.htm'
 import { config } from './config'
 
 async function showPage(name){

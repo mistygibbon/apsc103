@@ -22,6 +22,16 @@ function exportDataButton(){
     return button
 }
 
+function clearLocalStorageButton(){
+    let button = document.createElement("button")
+    button.innerText = "Clear Local Storage"
+    button.classList = "mainButton"
+    button.addEventListener("click",()=>{
+        localStorage.clear()
+    })
+    return button
+}
+
 function generateInput(settings){
     if (settings.type == "boolean"){
         return `
@@ -43,4 +53,4 @@ function generateSettings(settings, container){
     container.innerHTML += html
 }
 
-export {exportDataButton}
+export {exportDataButton, clearLocalStorageButton}

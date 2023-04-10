@@ -1,10 +1,11 @@
-import dashboard from './templates/dashboard.html'
-import metrics from './templates/metrics.html'
-import graphs from './templates/graphs.html'
-import settings from './templates/settings.html'
+import dashboard from './templates/dashboard.htm'
+import metrics from './templates/metrics.htm'
+import graphs from './templates/graphs.htm'
+import settings from './templates/settings.htm'
 
 let localStorageConfig = localStorage.getItem("config")
 const defaultConfig = {
+    version: 1,
     APIurl: "",
     pages : {
         dashboard: {
@@ -66,7 +67,7 @@ function storeConfig (){localStorage.setItem("config", JSON.stringify(config))}
 
 var config
 
-if (localStorageConfig == null){
+if (localStorageConfig == null||localStorageConfig.version<defaultConfig.version){
     config = defaultConfig
     storeConfig()
 } else {
@@ -88,6 +89,6 @@ Object.defineProperty(config,"metricNames",{
     }
 })
 
-console.log(config, config.storeConfig)
+console.log(defaultConfig)
 
 export {config}
