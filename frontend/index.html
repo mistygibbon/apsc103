@@ -1,2 +1,39 @@
 <!-- Redirect to dashboard page -->
-<meta http-equiv="refresh" content="0; url=./dashboard.html" />
+<!-- <meta http-equiv="refresh" content="0; url=./dashboard.html" /> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./src/images/favicon.ico">
+    <link rel="stylesheet" href="src/css/design.css">
+    <link rel="stylesheet" href="src/css/switch.css">
+    <title>Dashboard - Hyperloop GUI</title>
+</head>
+<body>
+    <div class="container">
+        <div class="titleLogo"></div>
+        <div class="sidebarContainer">
+            <div class="sidebarlogo"></div>
+            <button type="button" onclick="location.href='#dashboard'" class="pageButtons" style="top: 15vi;" id="dashboard">Dashboard</button>
+            <button type="button" onclick="location.href='#metrics'" class="pageButtons" style="top: 20vi;" id="metrics">Metrics</button> 
+            <button type="button" onclick="location.href='#graphs'" class="pageButtons" style="top: 25vi;" id="graphs">Graphs</button> 
+            <button type="button" onclick="location.href='#settings'" class="pageButtons" style="top: 30vi;" id="settings">
+                Settings
+                <div class="currentPage"></div>
+            </button> 
+            <div class="pageImages"><img src="src/images/dashboard.png" alt=""></div>
+            <div class="pageImages" style="top:19.8vi"><img src="src/images/metrics.png" alt=""></div>
+            <div class="pageImages" style="top:24.8vi"><img src="src/images/graphs.png" alt=""></div>
+            <div class="pageImages" style="top:29.8vi"><img src="src/images/settings.png" alt=""></div>
+        </div>
+        <div class="contentContainer">
+
+        </div>
+    </div>
+</body>
+<script src="./src/render.js" type="module"></script>
+<script src="./src/index.js" type="module"></script>
+</html>

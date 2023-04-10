@@ -1,15 +1,27 @@
 import { shiftChart, addRandomData, removeLastData, initializeConfig, replaceData, getMetricsData } from "../chartManipulation"
+import { config } from "../config"
+
+String.prototype.titleCase = function(){
+    const text = this;
+    const result = text.replace(/([A-Z])/g, " $1");
+    const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+    return finalResult
+}
+
+String.prototype.camelize = function () {
+    return this.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+}
 
 function chartSelectionDropdown(chart){
     let select = document.createElement("select")
     select.name = "Number of Elements"
     select.classList = "chartControl"
-    let charts = ["Velocity", "Temperature", "Distance Travelled", "Acceleration", "Pressure"]
+    let charts = config.graphMetrics
     charts.forEach((chartName)=>{
         const tempOption = document.createElement("option")
-        tempOption.innerText = chartName
-        tempOption.setAttribute("value", camelize(chartName))
-        if (camelize(chartName)==chart.name){
+        tempOption.innerText = chartName.titleCase()
+        tempOption.setAttribute("value", chartName)
+        if (chartName==chart.name){
             tempOption.setAttribute("selected", "selected")
         }
         select.appendChild(tempOption)
@@ -17,14 +29,11 @@ function chartSelectionDropdown(chart){
     select.addEventListener("change",(e)=>{
         let newChartName = e.target.value
         chart.name = newChartName
-        replaceData(chart, getMetricsData(newChartName,chart.visiblePoints))
+        chart.data.datasets[0].label = newChartName.titleCase()
+        // replaceData(chart, getMetricsData(newChartName,chart.visiblePoints))
         chart.update()
     })
     return select
-}
-
-var camelize = function camalize(str) {
-    return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
 }
 
 function addRandomDataButton(chart){
@@ -53,6 +62,7 @@ function pauseAutoUpdateButton(chart){
     button.classList = "chartControl"
     button.addEventListener("click", (e)=>{
         clearInterval(chart.autoUpdate)
+        console.log(chart)
         button.insertAdjacentElement("afterend",resumeAutoUpdateButton(chart))
         button.parentNode.removeChild(button)
     })

@@ -6,7 +6,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => ({
     server: {
         host: command === "serve" ? '127.0.0.1' : ""
     },
-
+    assetsInclude: ['**/*.html'],
     base: mode === "production" ? "/apsc103/" : "",
 
     build: {

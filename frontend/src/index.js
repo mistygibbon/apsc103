@@ -2,23 +2,90 @@
 import { addRandomData, shiftChart, createChart, createChartControls} from "./chartManipulation"
 import {  } from "./dataStorage";
 import {Chart} from 'chart.js';
-import { feedTestData } from "./backendAPI";
+import { feedTestMetric } from "./backendAPI";
+import { showPage } from "./render";
+import { config } from "./config";
+import { exportDataButton } from "./components/settingsComponents";
 
 console.log("Script loaded")
 
+var chartArr
 
 
-const chartNames = ["temperature", "velocity"]
-let chartContainers = document.querySelectorAll("div.chartContainer")
-chartContainers.forEach(chartContainer => {
-    let chartCanvas = document.createElement("canvas")
-    let chartName = chartNames.shift()
-    chartContainer.appendChild(chartCanvas)
-    createChart(chartName,undefined,chartCanvas).then((response)=>{
-        console.log(response)
-        createChartControls(response)
-    })
-});
+
+// Mode switcher
+if (window.location.href.match(/\.html$/)){ // Multi page mode if url contains .html
+    const chartNames = ["temperature", "velocity"]
+    let chartContainers = document.querySelectorAll("div.chartContainer")
+    chartContainers.forEach(chartContainer => {
+        let chartCanvas = document.createElement("canvas")
+        let chartName = chartNames.shift()
+        chartContainer.appendChild(chartCanvas)
+        createChart(chartName,undefined,chartCanvas).then((response)=>{
+            console.log(response)
+            createChartControls(response)
+        })
+    });
+}else{ // Single page mode
+    console.log(config.pages["settings"])
+    addEventListener("hashchange", async (event) => {
+        let pageName = location.hash.substring(1)
+        await showPage(pageName)
+        postRender()
+    });
+    if (location.hash == ""){location.hash = "dashboard"}
+    else {
+        let pageName = location.hash.substring(1)
+        await showPage(pageName)
+        postRender()
+    }
+}
+
+function postRender(){
+    let pageName = location.hash.substring(1)
+    if (pageName=="dashboard"||pageName=="graphs"){
+        generateChart()
+    } else if (pageName=="settings"){
+        let div = document.querySelector("div.optionsContainer")
+        div.appendChild(exportDataButton())
+    }
+}
+
+
+function generateChart(){
+    let metricName = Object.getOwnPropertyNames(config.metrics)
+    const chartNames = config.graphMetrics
+    let chartContainers = document.querySelectorAll("div.chartContainer")
+    chartArr = []
+    chartContainers.forEach(chartContainer => {
+        let chartCanvas = document.createElement("canvas")
+        let chartName = chartNames.shift()
+        console.log(chartName)
+        if (chartName == undefined){
+            return
+        }
+        chartContainer.appendChild(chartCanvas)
+
+        createChart(chartName,undefined,chartCanvas).then((response)=>{
+            console.log(response)
+            createChartControls(response)
+        })
+    }); 
+}
+
+
+
+// function showPage(hash){
+//     if (hash == "#settings"){
+//         showSettings()
+//     }
+//     if (hash == "#dashboard"){
+//         showDashboard()
+//     }
+//     if (hash == "#graphs"){
+//         showGraphs()
+//     }
+// }
 
 // let temperatureChart
 
@@ -55,3 +122,4 @@ chartContainers.forEach(chartContainer => {
 //     p.style.marginLeft = `${margin}px`
 // }
 // setInterval(addMargin,10)
+export {generateChart}

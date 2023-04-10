@@ -11,8 +11,3 @@ function getConfig(key){
     localStorage.getItem(key)
 }
 
-function storeShit(){
-    storeConfig("name", 111)
-}
-
-export{storeShit}

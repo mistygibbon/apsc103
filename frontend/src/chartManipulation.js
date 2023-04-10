@@ -15,7 +15,7 @@ import {
 
 
 
-import {data as metricsData} from './backendAPI'
+import {cache as metricsData} from './backendAPI'
 
 async function initializeConfig(name, data){
     if (data===undefined){
@@ -28,10 +28,10 @@ async function initializeConfig(name, data){
         data: {
             labels: data.map(entry=>entry.time),
             datasets: [{
-                label: name,
+                label: name.titleCase(),
                 data: data.map(entry=>entry.value),
                 borderColor: "red",
-                tension: 0.3
+                tension: 0.3,
             }]
         },
         options: {
@@ -55,7 +55,10 @@ async function initializeConfig(name, data){
                     type: "linear",
                     ticks: {
                         stepSize: 1
-                    }
+                    },
+                },
+                y: {
+                    min: 0
                 }
             }
         },
@@ -77,27 +80,44 @@ async function createChart(name, data, canvas){
         var chart = new Chart(canvas, config)
     }
     chart.name = name
+    chart.counter = 0
     chart.visiblePoints = 50
     chart.autoUpdateInterval = 1000
-    Chart.prototype.autoAddDataFunction = function(){replaceData(this, getMetricsData(this.name, this.visiblePoints))}
+    Chart.prototype.autoAddDataFunction = function(){
+        replaceData(this,getMetricsData(this.name, this.visiblePoints))
+        // autoAddData(this,this.visiblePoints)
+        // shiftChart(this,this.visiblePoints)
+    }
     chart.autoAddData = setInterval(()=>{chart.autoAddDataFunction()}, chart.autoUpdateInterval)
 
-    Chart.prototype.autoUpdateFunction = function(){this.update()}
+    Chart.prototype.autoUpdateFunction = function(){this.update('none')}
     chart.autoUpdate = setInterval(()=>{chart.autoUpdateFunction()}, chart.autoUpdateInterval)
 
     return chart
 }
 
-async function fetchData(name) {
-    return fetch(`./src/data/${name}.json`).then(
-        async (response) => {
-            let json = await response.json();
-            return json
+function autoAddData(chart,visiblePoints){
+    let newData = metricsData[chart.name].map(element=>element)
+    console.log(newData)
+    let time = newData.map(entry=>entry.time).slice(-visiblePoints)
+    let value = newData.map(entry=>entry.value).slice(-visiblePoints)
+
+    let index = time.findIndex(element=>element==chart.data.labels.at(-1))
+    console.log(chart.data.datasets[0].data.at(-1),value.at(index), index)
+    if (chart.data.datasets[0].data.at(-1)==value[index]||index==-1){
+        if(index >= newData.length-1){
+            return
         }
-    ).catch((err) => {
-        console.log(err);
-        return temperatureData
-    })
+        let timeNew = time.slice(index+1)
+        let valueNew = value.slice(index+1)
+        if (chart.pause==false){
+            addData(chart, timeNew, valueNew)
+        }
+    } else {
+        addData(chart, time, value)
+    }
+    return chart
+
 }
 
 function createChartControls(chart){
@@ -131,6 +151,11 @@ function removeLastData(chart){
     return chart
 }
 
+function addData(chart, label, data) {
+    chart.data.labels.push(...label);
+    chart.data.datasets[0].data.push(...data);
+}
+
 function shiftChart(chart, length=20){
     let data = chart.data
     while (data.labels.length>=length){
@@ -147,4 +172,4 @@ function getMetricsData(name,size){
     return metricsData[name].slice(-size)
 }
 
-export{addRandomData, shiftChart, createChart, createChartControls, removeLastData, initializeConfig, replaceData, getMetricsData}
+export{addRandomData, shiftChart, createChart, createChartControls, removeLastData, initializeConfig, replaceData, getMetricsData, addData}
