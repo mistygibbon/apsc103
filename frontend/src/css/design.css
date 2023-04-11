@@ -1,3 +1,45 @@
+:root {
+    --light-bg: white;
+    --light-contentContainer-bg: rgba(224, 232, 239, 0.452);
+    --light-contentBox-bg: white;
+    
+
+    --dark-bg: rgb(34, 34, 34);
+    --dark-contentContainer-bg: rgb(34, 34, 34);
+    --dark-contentBox-bg: rgb(47, 45, 45);
+
+    --background-color: var(--light-bg);
+    --contentContainer-background-color: var(--light-contentContainer-bg);
+    --contentBox-background-color: var(--light-contentBox-bg);
+    color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark){
+    :root{
+        --background-color: var(--dark-bg);
+        --contentContainer-background-color: var(--dark-contentContainer-bg);
+        --contentBox-background-color: var(--dark-contentBox-bg);
+        color-scheme: dark;
+    }
+}
+
+body.lightMode{
+    --background-color: var(--light-bg);
+    --contentContainer-background-color: var(--light-contentContainer-bg);
+    --contentBox-background-color: var(--light-contentBox-bg);
+    color: black;
+    color-scheme: light;
+}
+
+body.darkMode{
+    --background-color: var(--dark-bg);
+    --contentContainer-background-color: var(--dark-contentContainer-bg);
+    --contentBox-background-color: var(--dark-contentBox-bg);
+    color: rgb(224, 224, 224);
+    background-color: var(--background-color);
+    color-scheme: dark;
+}
+
 *{
     box-sizing: border-box;
     border: .1vi solid black;
@@ -5,6 +47,7 @@
     padding: 0;
     border: 0;
     font-family: system-ui, sans-serif;
+    transition: background-color 0.3s ease-in-out
 
 }
 .Inline{
@@ -32,7 +75,7 @@ p{
 
 .container{
     height: 99vh;
-    background-color: rgba(255,255,255,1);
+    background-color: var(--background-color);
     position: relative;
     top: 0;
     left: 0;
@@ -82,7 +125,7 @@ p{
     position:absolute;
     top: 13vh;
     right: 0;
-    background-color: rgba(224, 232, 239, 0.452);
+    background-color: var(--contentContainer-background-color);
     border-bottom-left-radius: 5vh;
     border-top-left-radius: 5vh;
 
@@ -125,7 +168,7 @@ p{
 }
 
 .contentBox{
-    background-color: white;
+    background-color: var(--contentBox-background-color);
     border-radius: 2vh;
     box-shadow: 0 1vh 2vh rgba(0, 0,0,0.25);
     padding: 2% 2%;
@@ -271,3 +314,12 @@ hr {
     text-align: center;
     font-size: 2rem;
 }
+
+/* Utility class for javascript */
+
+.notransition {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+  }

@@ -1,4 +1,4 @@
-import { config } from "../config"
+import { config, storeConfig } from "../config"
 import { saveAs } from 'file-saver';
 import { fetchAllData } from "../backendAPI";
 
@@ -27,30 +27,111 @@ function clearLocalStorageButton(){
     button.innerText = "Clear Local Storage"
     button.classList = "mainButton"
     button.addEventListener("click",()=>{
+        if (confirm("This will delete all settings. Click OK to continue.")){
+        document.removeEventListener("visibilitychange",storeConfig)
         localStorage.clear()
+        console.log("Settings deleted")
+        }
+        
     })
     return button
 }
 
 function generateInput(settings){
     if (settings.type == "boolean"){
-        return `
-            <label class="switch">
-                <input type="checkbox" checked="${settings.value}}">
-                <span class="slider round"></span>
-            </label>
-        `
+        let label = document.createElement("label")
+        label.classList = "switch"
+        let input = document.createElement("input")
+        input.type = "checkbox"
+        if (settings.value){
+        input.setAttribute("checked",settings.value)
+        }
+        input.addEventListener("change",(e)=>{
+            console.log(e.target.checked)
+            settings.value = e.target.checked
+            postChange(settings)
+        })
+        let span = document.createElement("span")
+        span.classList = "slider round"
+        label.appendChild(input)
+        label.appendChild(span)
+        console.log(label)
+        return label
+        // `
+        //     <label class="switch">
+        //         <input type="checkbox" checked="${settings.value}}">
+        //         <span class="slider round"></span>
+        //     </label>
+        // `
+    }
+    if (settings.type = "select"){
+        let select = document.createElement("select")
+        let options = settings.options
+        options.forEach((option)=>{
+            const tempOption = document.createElement("option")
+            tempOption.innerText = option.name
+            tempOption.setAttribute("value", option.value)
+            if (option.value==settings.value){
+                tempOption.setAttribute("selected", "selected")
+            }
+            select.appendChild(tempOption)
+        })
+        select.addEventListener("change",(e)=>{
+            console.log(e.target.value)
+            settings.value = e.target.value
+            postChange(settings)
+        })
+        return select
+    }
+    throw console.error(`No settings type for ${settings}`);
+}
+
+function generateSettingsItems(settings){
+//     <div class="option">
+//     <p class="optionText">Dark mode</p>
+//     <label class="switch">
+//         <input type="checkbox">
+//         <span class="slider round"></span>
+//     </label>
+// </div>
+    let div = document.createElement("div")
+    div.classList = "option"
+    div.innerHTML = `
+    <p class="optionText">${settings.name}</p>
+    ` 
+    div.appendChild(generateInput(settings))
+    return div
+}
+
+function postChange(settings){
+    switch (settings.id) {
+        case "colorScheme":
+            let displayMode = settings.value
+            if (displayMode == "dark"){
+                document.querySelector("body").classList.remove("lightMode")
+                document.querySelector("body").classList.add("darkMode")
+            } else if (displayMode == "light"){
+                document.querySelector("body").classList.remove("darkMode")
+                document.querySelector("body").classList.add("lightMode")
+            } else if (displayMode == "default"){
+                document.querySelector("body").classList.remove("darkMode")
+                document.querySelector("body").classList.remove("lightMode")
+            }
+            break;
+        default:
+            console.log(settings)
+            break;
     }
 }
 
-function generateSettings(settings, container){
-    html = `
-    <div class="option">
-    <p class="optionText">${settings.name}}</p>
-        ${generateInput(settings)}
-    </div>
-    ` 
-    container.innerHTML += html
+function getDarkMode(){
+    let isSystemDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+    let configValue = config.settings.darkMode.value
+    if(configValue == undefined||configValue=="default"){
+        return isSystemDark ? "dark":"light"
+    } else {
+        return configValue
+    } 
 }
 
-export {exportDataButton, clearLocalStorageButton}
+export {exportDataButton, clearLocalStorageButton, generateSettingsItems}

@@ -45,25 +45,31 @@ const defaultConfig = {
         }
     },
     settings: {
-        darkMode: {
-            name: "Dark mode",
-            value: false,
+        colorScheme: {
+            id: "colorScheme",
+            name: "Color scheme",
+            type: "select",
+            options: [{name:"Light", value: "light"},{name:"Dark", value: "dark"},{name:"Device Default", value: "default"}],
+            value: "default",
+            category: "Appearance"
         },
         mute: {
             name: "Mute",
+            type: "boolean",
             value: false,
+            category: "Volume"
         },
     },
-    get graphMetrics() {
-        let metricName = Object.getOwnPropertyNames(this.metrics)
-        let graphMetrics = metricName.filter(metric=>this.metrics[metric].graph)
-        return graphMetrics
-    },
-    get metricNames() {
-        return Object.getOwnPropertyNames(this.metrics)
-    },
+    // get graphMetrics() {
+    //     let metricName = Object.getOwnPropertyNames(this.metrics)
+    //     let graphMetrics = metricName.filter(metric=>this.metrics[metric].graph)
+    //     return graphMetrics
+    // },
+    // get metricNames() {
+    //     return Object.getOwnPropertyNames(this.metrics)
+    // },
 }
-function storeConfig (){localStorage.setItem("config", JSON.stringify(config))}
+function storeConfig (){localStorage.setItem("config", JSON.stringify(config));console.log("config saved")}
 
 var config
 
@@ -74,7 +80,7 @@ if (localStorageConfig == null||localStorageConfig.version<defaultConfig.version
     config = JSON.parse(localStorageConfig)
 }
 
-document.addEventListener("visibilitychange",()=>{storeConfig()})
+document.addEventListener("visibilitychange",storeConfig)
 
 Object.defineProperty(config,"graphMetrics",{
     get: function(){
@@ -88,7 +94,14 @@ Object.defineProperty(config,"metricNames",{
         return Object.getOwnPropertyNames(this.metrics)
     }
 })
+Object.defineProperty(config,"settingsItems",{
+    get: function(){
+        return Object.getOwnPropertyNames(this.settings)
+    }
+})
+
+
 
 console.log(defaultConfig)
 
-export {config}
+export {config, storeConfig}

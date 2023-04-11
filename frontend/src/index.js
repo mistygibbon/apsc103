@@ -5,13 +5,11 @@ import {Chart} from 'chart.js';
 import { feedTestMetric } from "./backendAPI";
 import { showPage } from "./render";
 import { config } from "./config";
-import { clearLocalStorageButton, exportDataButton } from "./components/settingsComponents";
+import { clearLocalStorageButton, exportDataButton, generateSettingsItems } from "./components/settingsComponents";
 
 console.log("Script loaded")
 
 var chartArr
-
-
 
 // Mode switcher
 if (window.location.href.match(/\.html$/)){ // Multi page mode if url contains .html
@@ -45,11 +43,24 @@ function postRender(){
         generateChart()
     } else if (pageName=="settings"){
         let div = document.querySelector("div.optionsContainer")
-        div.appendChild(exportDataButton())
-        div.appendChild(clearLocalStorageButton())
+        generateSettings()
+        div.insertBefore(exportDataButton(),div.querySelector("hr"))
+        div.insertBefore(clearLocalStorageButton(),div.querySelector("hr"))
     }
 }
 
+function generateSettings(div=document.querySelector("div.optionsContainer")){
+    let settingsItems = config.settingsItems
+    console.log(settingsItems)
+    // let tmp = settingsItems.map((item)=>{config.settings[item].category})
+    // let categoryList = tmp.filter(function(item, pos){
+    //     return tmp.indexOf(item)== pos; 
+    // });
+    // console.log(tmp,categoryList)
+    settingsItems.forEach((setting)=>{
+        div.insertBefore(generateSettingsItems(config.settings[setting]),div.firstChild)
+    })
+}
 
 function generateChart(){
     let metricName = Object.getOwnPropertyNames(config.metrics)
@@ -71,7 +82,6 @@ function generateChart(){
         })
     }); 
 }
-
 
 
 // function showPage(hash){
