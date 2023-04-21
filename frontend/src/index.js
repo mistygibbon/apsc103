@@ -120,7 +120,7 @@ function generateMetrics(){
     })
 }
 
-let notificationPermission = await Notification.requestPermission();
+let notificationPermission = (async()=>{await Notification.requestPermission()})()
 
 
 
