@@ -302,11 +302,11 @@ div.option {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: .6vi;
+    margin: 1.2rem 0;
 }
 
 div.option > .optionText {
-    font-size: 1.2em;
+    font-size: 1.2rem;
 }
 
 hr {
@@ -320,6 +320,10 @@ hr {
     color: gray;
   }
 
+  .metrics {
+    margin: 1.2rem 1rem;
+  }
+
 /* Chart dependent styling */
 .contentBox > div.chartContainer {
     height: 90%;
@@ -331,19 +335,35 @@ hr {
     padding: 0 0.25rem;
     border-radius: 0.2rem;
 }
-.progressBar{
-    display: flexbox;
-    position: absolute;
-    top: 89.3vh;
-    left: 17vi;
-    z-index: +1;
-    width: 20vi;
-    height: 5vh;
-    background-color: rgb(35, 208, 35);
-    border-bottom-left-radius: 1vi;
-    text-align: center;
-    font-size: 2rem;
+
+/* Progress bar */
+.progressBarContainer{
+    position: relative;
+    bottom:0%;
+    background-color: black;
+    height: 3vi;
+    margin-top: auto;
 }
+
+.progressBar{
+    background-color: green;
+    height: 100%;
+    width: 10%;
+}
+
+.dashboardBox{
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    overflow: hidden;
+}
+
+select {
+    margin: 0.5% 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.4rem;
+}
+
 
 /* Utility class for javascript */
 

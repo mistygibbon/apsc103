@@ -3,6 +3,7 @@ import velocityData from './data/temperature.json'
 import testData from './data/testData.json'
 import { config } from './config'
 import { addData } from './chartManipulation'
+import alertAudio from './audio/prompt.wav'
 
 let data = {}
 config.metricNames.forEach((metricName)=>{
@@ -95,9 +96,36 @@ function fetchAllData(){
         console.log(err);
     })
 }
+let warningData = {}
+config.metricNames.forEach((metricName)=>{
+    warningData[metricName] = []
+})
 
 function update(name){
     cache[name] = fetchData(name)
+    cache[name].forEach((datapoint)=>{
+        let safetyLimit 
+        if (config.metrics[name].safetyLimit){
+            safetyLimit = config.metrics[name].safetyLimit
+        }
+        if(Math.abs(datapoint.value) > safetyLimit){
+            if (warningData[name].includes(datapoint)==false){
+                warningData[name].push(datapoint)
+                if (config.settings.enableNotifications.value){
+                    const greeting = new Notification('Warning from Hyperloop GUI',{
+                        body: `${name.titleCase()} exceeded safety limit of ${safetyLimit} at time ${datapoint.time}`,
+                        icon: './img/goodday.png'
+                    });
+                }
+                if (config.settings.mute.value==false){
+                    let audio = new Audio(alertAudio)
+                    audio.play()
+                }
+            }
+        }
+    })
+    console.log(warningData)
+}
     // let charts = getChartArray().map().filter(chart=>chart.name==name)
     // let time = cache[name].map(entry=>entry.time)
     // let value = cache[name].map(entry=>entry.value)
@@ -110,7 +138,6 @@ function update(name){
     //     }
     //     console.log(chart,chart.data.datasets[0].data)
     // })
-}
 
 setInterval(()=>{
     config.graphMetrics.forEach((metric)=>{

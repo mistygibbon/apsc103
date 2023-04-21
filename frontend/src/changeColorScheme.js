@@ -1,17 +1,18 @@
-import { config } from "./config"
-
 function changeColorScheme(){
     document.querySelectorAll("*").forEach((item)=>{item.classList.add("notransition")})
-    let displayMode = config.settings.colorScheme.value
+    let displayMode = JSON.parse(localStorage.getItem("config")).settings.colorScheme.value
+    let html = document.querySelector("html")
+    // let body = document.querySelector("body")
+    // body.style.display = "none"
     if (displayMode == "dark"){
-        document.querySelector("body").classList.remove("lightMode")
-        document.querySelector("body").classList.add("darkMode")
+        html.classList.remove("lightMode")
+        html.classList.add("darkMode")
     } else if (displayMode == "light"){
-        document.querySelector("body").classList.remove("darkMode")
-        document.querySelector("body").classList.add("lightMode")
-    } else if (displayMode == "default"){
-        document.querySelector("body").classList.remove("darkMode")
-        document.querySelector("body").classList.remove("lightMode")
+        html.classList.remove("darkMode")
+        html.classList.add("lightMode")
+    } else if (displayMode == "default"||displayMode == undefined){
+        html.classList.remove("darkMode")
+        html.classList.remove("lightMode")
     }
 
     setTimeout(()=>{document.querySelectorAll("*").forEach((item)=>{item.classList.remove("notransition")})},500)

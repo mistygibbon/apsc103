@@ -16,6 +16,7 @@ import {
 
 
 import {cache as metricsData} from './backendAPI'
+import { config as appConfig } from './config';
 
 async function initializeConfig(name, data){
     if (data===undefined){
@@ -56,9 +57,15 @@ async function initializeConfig(name, data){
                     ticks: {
                         stepSize: 1
                     },
+                    grid: {
+                        display: appConfig.settings.enableGridlines.value
+                    },
                 },
                 y: {
-                    min: 0
+                    // min: 0
+                    grid: {
+                        display: appConfig.settings.enableGridlines.value
+                    },
                 }
             }
         },
@@ -93,6 +100,8 @@ async function createChart(name, data, canvas){
     Chart.prototype.autoUpdateFunction = function(){this.update('none')}
     chart.autoUpdate = setInterval(()=>{chart.autoUpdateFunction()}, chart.autoUpdateInterval)
 
+    await chart.autoAddDataFunction()
+    chart.update('active')
     return chart
 }
 
@@ -129,7 +138,6 @@ function createChartControls(chart){
             // removeLastDataButton
         ]
     buttons.forEach((button)=>{
-        console.log(button)
         chart.canvas.parentElement.parentElement.appendChild(button(chart))
     })
 }
@@ -168,8 +176,9 @@ function shiftChart(chart, length=20){
 }
 
 function getMetricsData(name,size){
-    console.log(name,size)
+    // console.log(name,size)
     return metricsData[name].slice(-size)
 }
+
 
 export{addRandomData, shiftChart, createChart, createChartControls, removeLastData, initializeConfig, replaceData, getMetricsData, addData}

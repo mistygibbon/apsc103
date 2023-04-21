@@ -27,7 +27,7 @@ function clearLocalStorageButton(){
     button.innerText = "Clear Local Storage"
     button.classList = "mainButton"
     button.addEventListener("click",()=>{
-        if (confirm("This will delete all settings. Click OK to continue.")){
+        if (confirm("This will return all settings to default. Click OK to continue.")){
         document.removeEventListener("visibilitychange",storeConfig)
         localStorage.clear()
         console.log("Settings deleted")
@@ -83,6 +83,11 @@ function generateInput(settings){
         })
         return select
     }
+    if (settings.type = "number"){
+        let input = document.createElement("input")
+        input.type = "number"
+        return input
+    }
     throw console.error(`No settings type for ${settings}`);
 }
 
@@ -107,15 +112,16 @@ function postChange(settings){
     switch (settings.id) {
         case "colorScheme":
             let displayMode = settings.value
+            let html = document.querySelector("html")
             if (displayMode == "dark"){
-                document.querySelector("body").classList.remove("lightMode")
-                document.querySelector("body").classList.add("darkMode")
+                html.classList.remove("lightMode")
+                html.classList.add("darkMode")
             } else if (displayMode == "light"){
-                document.querySelector("body").classList.remove("darkMode")
-                document.querySelector("body").classList.add("lightMode")
+                html.classList.remove("darkMode")
+                html.classList.add("lightMode")
             } else if (displayMode == "default"){
-                document.querySelector("body").classList.remove("darkMode")
-                document.querySelector("body").classList.remove("lightMode")
+                html.classList.remove("darkMode")
+                html.classList.remove("lightMode")
             }
             break;
         default:
@@ -133,5 +139,24 @@ function getDarkMode(){
         return configValue
     } 
 }
+
+// function generateSafetyLimit(){
+//     div = document.createElement("div")
+//     div.innerHTML = "<h2>Safety Limit</h2>"
+//     config.metricNames.forEach((metricName)=>{
+//         let innerDiv = document.createElement("div")
+//         innerDiv.classList = "option"
+//         innerDiv.innerHTML = `
+//         <p class="optionText">${metricName}</p>
+//         ` 
+//         let settings = {
+//             type: "number",
+//             value: config.metrics[metricName].safetyLimit
+//         }
+//         innerDiv.appendChild(generateInput(settings))
+//         div.appendChild(innerDiv)
+//     })
+//     return div
+// }
 
 export {exportDataButton, clearLocalStorageButton, generateSettingsItems}

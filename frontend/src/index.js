@@ -6,10 +6,11 @@ import { feedTestMetric } from "./backendAPI";
 import { showPage } from "./render";
 import { config } from "./config";
 import { clearLocalStorageButton, exportDataButton, generateSettingsItems } from "./components/settingsComponents";
+import { cache } from "./backendAPI";
+import favicon from "./images/favicon.ico"
 
-console.log("Script loaded")
-
-var chartArr
+var chartArr = []
+var metricsAutoUpdate
 
 // Mode switcher
 if (window.location.href.match(/\.html$/)){ // Multi page mode if url contains .html
@@ -28,6 +29,10 @@ if (window.location.href.match(/\.html$/)){ // Multi page mode if url contains .
     console.log(config.pages["settings"])
     addEventListener("hashchange", async (event) => {
         let pageName = location.hash.substring(1)
+        console.log(event)
+        
+        await clearInterval(metricsAutoUpdate)
+        await destroyChart()
         showPage(pageName).then(()=>{postRender()})
     });
     if (location.hash == ""){location.hash = "dashboard"}
@@ -47,6 +52,10 @@ function postRender(){
         div.insertBefore(exportDataButton(),div.querySelector("hr"))
         div.insertBefore(clearLocalStorageButton(),div.querySelector("hr"))
     }
+    if (pageName=="metrics"){
+        generateMetrics()
+        metricsAutoUpdate = setInterval(()=>{generateMetrics();console.log("metrics updated")},1000)
+    }
 }
 
 function generateSettings(div=document.querySelector("div.optionsContainer")){
@@ -57,7 +66,7 @@ function generateSettings(div=document.querySelector("div.optionsContainer")){
     //     return tmp.indexOf(item)== pos; 
     // });
     // console.log(tmp,categoryList)
-    settingsItems.forEach((setting)=>{
+    settingsItems.reverse().forEach((setting)=>{
         div.insertBefore(generateSettingsItems(config.settings[setting]),div.firstChild)
     })
 }
@@ -66,23 +75,84 @@ function generateChart(){
     let metricName = Object.getOwnPropertyNames(config.metrics)
     const chartNames = config.graphMetrics
     let chartContainers = document.querySelectorAll("div.chartContainer")
-    chartArr = []
     chartContainers.forEach(chartContainer => {
         let chartCanvas = document.createElement("canvas")
+        chartCanvas.id = "chartCanvas"
         let chartName = chartNames.shift()
-        console.log(chartName)
         if (chartName == undefined){
             return
         }
         chartContainer.appendChild(chartCanvas)
 
         createChart(chartName,undefined,chartCanvas).then((response)=>{
-            console.log(response)
             createChartControls(response)
+            chartArr += response
         })
     }); 
+    // document.querySelectorAll()
 }
 
+function destroyChart(){
+    document.querySelectorAll("canvas#chartCanvas").forEach((canvas)=>{
+        let chart = Chart.getChart(canvas)
+        chart.clear()
+        clearInterval(chart.autoUpdate)
+        clearInterval(chart.autoAddData)
+        console.log(canvas,chart)
+        chart.destroy()
+    })
+}
+
+function generateMetrics(){
+    let container = document.querySelector(".contentBox")
+    container.innerHTML = ""
+    config.metricNames.forEach((metricName)=>{
+        let p = document.createElement("p")
+        p.classList = "metrics"
+        p.innerText = `${metricName.titleCase()}: `
+        console.log(cache[metricName].slice(-1))
+        if (cache[metricName].at(-1) != undefined){
+            p.innerText += `${cache[metricName].at(-1).value}`
+        } else {
+            p.innerText += `Undefined`
+        }
+        container.appendChild(p)
+    })
+}
+
+let notificationPermission = await Notification.requestPermission();
+
+
+
+
+// Shortcut keys
+let pauseChart = false
+document.addEventListener("keypress",(e)=>{
+    console.log(`You pressed ${e.key}`)
+    // if (e.key == " "){
+    //     pauseChart = !pauseChart
+    //     if(pauseChart){
+    //         document.querySelectorAll("canvas#chartCanvas").forEach((canvas)=>{
+    //             let chart = Chart.getChart(canvas)
+    //             clearInterval(chart.autoAddData)
+    //             clearInterval(chart.autoUpdate)
+    //             console.log(canvas,chart)
+    //         })
+    //     } else {
+    //         document.querySelectorAll("canvas#chartCanvas").forEach((canvas)=>{
+    //             let chart = Chart.getChart(canvas)
+    //             chart.autoAddData = setInterval(()=>{chart.autoAddDataFunction()}, chart.autoUpdateInterval)
+    //             chart.autoUpdate = setInterval(()=>{chart.autoUpdateFunction()}, chart.autoUpdateInterval)
+    //         })
+    //     }
+
+    // }
+})
+// document.querySelectorAll(".pageButtons").forEach((pageButton)=>{
+//     pageButton.addEventListener("click",()=>{
+
+//     })
+// })
 
 // function showPage(hash){
 //     if (hash == "#settings"){

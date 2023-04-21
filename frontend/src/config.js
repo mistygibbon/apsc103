@@ -10,7 +10,7 @@ const defaultConfig = {
     pages : {
         dashboard: {
             templateLink: dashboard,
-
+            graphs: {},
         },
         metrics: {
             templateLink: metrics
@@ -27,21 +27,31 @@ const defaultConfig = {
     metrics: {
         temperature: {
             graph: true,
+            safetyLimit: 600,
         },
         velocity: {
             graph: true,
+            safetyLimit: 600,
         },
         distanceTravelled: {
             graph: true,
         },
         acceleration: {
-            graph: false,
+            graph: true,
+            safetyLimit: 20,
+
         },
         pressure: {
             graph: false,
         },
         voltage: {
             graph: false,
+        },
+        batteryStatus: {
+            graphs: false,
+        },
+        communicationStatus: {
+            graphs: false,
         }
     },
     settings: {
@@ -56,8 +66,20 @@ const defaultConfig = {
         mute: {
             name: "Mute",
             type: "boolean",
-            value: false,
+            value: true,
             category: "Volume"
+        },
+        enableNotifications: {
+            name: "Enable notifications",
+            type: "boolean",
+            value: true,
+            category: "Appearance"
+        },
+        enableGridlines: {
+            name: "Enable gridlines",
+            type: "boolean",
+            value: true,
+            category: "Appearance"
         },
     },
     // get graphMetrics() {
@@ -102,6 +124,6 @@ Object.defineProperty(config,"settingsItems",{
 
 
 
-console.log(defaultConfig)
+console.log(`You are using configuration: `, defaultConfig)
 
 export {config, storeConfig}

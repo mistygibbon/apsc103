@@ -12,7 +12,9 @@ async function showPage(name){
     let contentContainer = document.querySelector(".contentContainer")
     let response = await fetch(config.pages[name].templateLink)
     let html = await response.text()
+    console.groupCollapsed("Fetched HTML")
     console.log(html)
+    console.groupEnd()
     contentContainer.innerHTML = html
 }
 
