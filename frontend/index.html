@@ -13,22 +13,44 @@
     <title>Dashboard - Hyperloop GUI</title>
 </head>
 <body>
-    <script src="./src/changeColorScheme.js" type="module"></script>
+    <script src="./src/changeColorScheme.js" type=""></script>
+
     <div class="container">
         <div class="titleLogo"></div>
         <div class="sidebarContainer">
             <div class="sidebarlogo"></div>
-            <button type="button" onclick="location.href='#dashboard'" class="pageButtons" style="top: 15vi;" id="dashboard">Dashboard</button>
+            <!-- <button type="button" onclick="location.href='#dashboard'" class="pageButtons" style="top: 15vi;" id="dashboard">
+                <img src="src/images/settings_FILL0_wght400_GRAD0_opsz48.svg" alt="" class="pageButtonsImages">Dashboard</button>
             <button type="button" onclick="location.href='#metrics'" class="pageButtons" style="top: 20vi;" id="metrics">Metrics</button> 
             <button type="button" onclick="location.href='#graphs'" class="pageButtons" style="top: 25vi;" id="graphs">Graphs</button> 
             <button type="button" onclick="location.href='#settings'" class="pageButtons" style="top: 30vi;" id="settings">
                 Settings
                 <div class="currentPage"></div>
-            </button> 
-            <div class="pageImages"><img src="src/images/dashboard.png" alt=""></div>
+            </button>  -->
+            <div class="pageButtonsContainer">
+                <button type="button" onclick="location.href='#dashboard'" class="pageButtons" id="dashboard">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" class="pageButtonsImages"><path d="M520 456V216h320v240H520ZM120 616V216h320v400H120Zm400 320V536h320v400H520Zm-400 0V696h320v240H120Zm80-400h160V296H200v240Zm400 320h160V616H600v240Zm0-480h160v-80H600v80ZM200 856h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360 776Z"/></svg>
+                    Dashboard
+                </button>
+                <button type="button" onclick="location.href='#metrics'" class="pageButtons" id="metrics">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" class="pageButtonsImages"><path d="M280 776h80V576h-80v200Zm320 0h80V376h-80v400Zm-160 0h80V656h-80v120Zm0-200h80v-80h-80v80ZM200 936q-33 0-56.5-23.5T120 856V296q0-33 23.5-56.5T200 216h560q33 0 56.5 23.5T840 296v560q0 33-23.5 56.5T760 936H200Zm0-80h560V296H200v560Zm0-560v560-560Z"/></svg>
+                    Metrics
+                </button>
+                <button type="button" onclick="location.href='#graphs'" class="pageButtons" id="graphs">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" class="pageButtonsImages"><path d="M120 936v-80l80-80v160h-80Zm160 0V696l80-80v320h-80Zm160 0V616l80 81v239h-80Zm160 0V697l80-80v319h-80Zm160 0V536l80-80v480h-80ZM120 729V616l280-280 160 160 280-280v113L560 609 400 449 120 729Z"/></svg>
+                    Graphs
+                </button>
+                <button type="button" onclick="location.href='#settings'" class="pageButtons" id="settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" class="pageButtonsImages"><path d="m370 976-16-128q-13-5-24.5-12T307 821l-119 50L78 681l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78 471l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12l-16 128H370Zm112-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342 576q0 58 40.5 99t99.5 41Zm0-80q-25 0-42.5-17.5T422 576q0-25 17.5-42.5T482 516q25 0 42.5 17.5T542 576q0 25-17.5 42.5T482 636Zm-2-60Zm-40 320h79l14-106q31-8 57.5-23.5T639 729l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533 362l-13-106h-79l-14 106q-31 8-57.5 23.5T321 423l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427 790l13 106Z"/></svg>
+
+                    Settings
+                    <div class="currentPage"></div>
+                </button>
+            </div>
+            <!-- <div class="pageImages"><img src="src/images/dashboard.png" alt=""></div>
             <div class="pageImages" style="top:19.8vi"><img src="src/images/metrics.png" alt=""></div>
             <div class="pageImages" style="top:24.8vi"><img src="src/images/graphs.png" alt=""></div>
-            <div class="pageImages" style="top:29.8vi"><img src="src/images/settings.png" alt=""></div>
+            <div class="pageImages" style="top:29.8vi"><img src="src/images/settings_FILL0_wght400_GRAD0_opsz48.svg" alt=""></div> -->
         </div>
         <div class="contentContainer">
 

@@ -2,15 +2,18 @@
     --light-bg: white;
     --light-contentContainer-bg: rgba(224, 232, 239, 0.452);
     --light-contentBox-bg: white;
+    --light-sidebar-bg: rgb(139, 27, 2);
     
 
-    --dark-bg: rgb(34, 34, 34);
-    --dark-contentContainer-bg: rgb(34, 34, 34);
+    --dark-bg: rgb(12, 12, 12);
+    --dark-contentContainer-bg: rgb(27, 27, 27);
     --dark-contentBox-bg: rgb(47, 45, 45);
+    --dark-sidebar-bg: rgba(139, 27, 2, 50%);
 
     --background-color: var(--light-bg);
     --contentContainer-background-color: var(--light-contentContainer-bg);
     --contentBox-background-color: var(--light-contentBox-bg);
+    --sidebar-background-color: var(--light-sidebar-bg);
     color-scheme: light;
 }
 
@@ -19,22 +22,25 @@
         --background-color: var(--dark-bg);
         --contentContainer-background-color: var(--dark-contentContainer-bg);
         --contentBox-background-color: var(--dark-contentBox-bg);
+        --sidebar-background-color: var(--dark-sidebar-bg);
         color-scheme: dark;
     }
 }
 
-body.lightMode{
+html.lightMode{
     --background-color: var(--light-bg);
     --contentContainer-background-color: var(--light-contentContainer-bg);
     --contentBox-background-color: var(--light-contentBox-bg);
+    --sidebar-background-color: var(--light-sidebar-bg);
     color: black;
     color-scheme: light;
 }
 
-body.darkMode{
+html.darkMode{
     --background-color: var(--dark-bg);
     --contentContainer-background-color: var(--dark-contentContainer-bg);
     --contentBox-background-color: var(--dark-contentBox-bg);
+    --sidebar-background-color: var(--dark-sidebar-bg);
     color: rgb(224, 224, 224);
     background-color: var(--background-color);
     color-scheme: dark;
@@ -98,7 +104,7 @@ p{
 .sidebarContainer{
     width: 11vw;
     height: 100vh;
-    background-color: rgb(139, 27, 2);
+    background-color: var(--sidebar-background-color);
     position: absolute;
     border-bottom-right-radius: 20px;
     border-top-right-radius: 20px;
@@ -135,6 +141,7 @@ p{
     gap: 2vi;
     padding: 2vi;
 }
+
 .metricsGrid{
     width: 85vw;
     height: 85vh;
@@ -177,9 +184,9 @@ p{
 
 .currentPage{
     position: absolute;
-    left: -3vi;
+    left: -1vi;
     top: -0.5vi;
-    width: 180%;
+    width: 160%;
     height: 160%;
     background-color: rgb(229, 185, 55);
     z-index: -1;
@@ -187,26 +194,49 @@ p{
     font-size: 10px;
 }
 
+.pageButtonsContainer {
+    margin-top: 15vi;
+}
+
 .pageButtons{
-    position: absolute;
-    height: 3vh;
-    width: 6vw;
-    left: 5vw;
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-top: 3vi;
+    margin-bottom: 3vi;
+    height: 3.5vh;
+    width: 8vw;
+    left: 3vw;
     background-color: rgba(0, 0, 0,0);
     color: white;
     font-size: 1vi;
     text-align: left;
     transition: 0.8s;
     z-index: +1;
+    line-height: 100%;
+    white-space: nowrap;
 }
+
+.pageButtons>p{
+    font-size: 1vi
+}
+
 .pageImages{
-    width: 1vi;
-    height: 1vi;
+    width: 0.5em;
+    height: 0.5em;
     z-index: +2;
     position: absolute;
     left: 2.5vw;
-    top: 14.8vi;
+    top: 0vi;
 }
+
+.pageButtonsImages{
+    display: inline;
+    fill: white;
+    margin-right: 0.1em;
+}
+
 button{
     cursor: pointer;
 }
@@ -214,7 +244,7 @@ button{
 .pageButtons::before{
     content: "";
     position: absolute;
-    left: -3vi;
+    left: -1vi;
     top: -0.5vi;
     width: 0%;
     height: 160%;
@@ -222,12 +252,12 @@ button{
     z-index: -1;
     transition: 0.8s;
     border-radius: 1vi 3vi 3vi 1vi;
-    color: black;
-    font-size: 10px;
-    
+    /* color: black;
+    font-size: 10px; */
 }
+
 .pageButtons:hover::before{
-width:180%;
+    width:160%;
 }
 
     
