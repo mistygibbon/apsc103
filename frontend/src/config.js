@@ -27,18 +27,19 @@ const defaultConfig = {
     metrics: {
         temperature: {
             graph: true,
-            safetyLimit: 600,
+            upperSafetyLimit: 600,
         },
         velocity: {
             graph: true,
-            safetyLimit: 600,
+            upperSafetyLimit: 600,
         },
         distanceTravelled: {
             graph: true,
         },
         acceleration: {
             graph: true,
-            safetyLimit: 20,
+            upperSafetyLimit: 20,
+            lowerSafetyLimit: -20,
 
         },
         pressure: {

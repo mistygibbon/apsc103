@@ -2,12 +2,12 @@
 import { addRandomData, shiftChart, createChart, createChartControls} from "./chartManipulation"
 import {  } from "./dataStorage";
 import {Chart} from 'chart.js';
-import { feedTestMetric } from "./backendAPI";
+import { warningData } from "./backendAPI";
 import { showPage } from "./render";
 import { config } from "./config";
-import { clearLocalStorageButton, exportDataButton, generateSettingsItems } from "./components/settingsComponents";
+import { clearLocalStorageButton, exportDataButton, generateSettingsItems, configEditTextBox } from "./components/settingsComponents";
 import { cache } from "./backendAPI";
-import favicon from "./images/favicon.ico"
+import { progressBarStart, progressBarStop} from "./progressBar";
 
 var chartArr = []
 var metricsAutoUpdate
@@ -30,7 +30,7 @@ if (window.location.href.match(/\.html$/)){ // Multi page mode if url contains .
     addEventListener("hashchange", async (event) => {
         let pageName = location.hash.substring(1)
         console.log(event)
-        
+        await progressBarStop
         await clearInterval(metricsAutoUpdate)
         await destroyChart()
         showPage(pageName).then(()=>{postRender()})
@@ -46,12 +46,16 @@ function postRender(){
     let pageName = location.hash.substring(1)
     if (pageName=="dashboard"||pageName=="graphs"){
         generateChart()
-    } else if (pageName=="settings"){
+        progressBarStart()
+    } 
+    
+    if (pageName=="settings"){
         let div = document.querySelector("div.optionsContainer")
         generateSettings()
         div.insertBefore(exportDataButton(),div.querySelector("hr"))
         div.insertBefore(clearLocalStorageButton(),div.querySelector("hr"))
     }
+    
     if (pageName=="metrics"){
         generateMetrics()
         metricsAutoUpdate = setInterval(()=>{generateMetrics();console.log("metrics updated")},1000)
@@ -66,6 +70,7 @@ function generateSettings(div=document.querySelector("div.optionsContainer")){
     //     return tmp.indexOf(item)== pos; 
     // });
     // console.log(tmp,categoryList)
+    // div.insertBefore(configEditTextBox(),div.firstChild)
     settingsItems.reverse().forEach((setting)=>{
         div.insertBefore(generateSettingsItems(config.settings[setting]),div.firstChild)
     })
@@ -104,8 +109,8 @@ function destroyChart(){
 }
 
 function generateMetrics(){
-    let container = document.querySelector(".contentBox")
-    container.innerHTML = ""
+    let metricsContainer = document.querySelector(".metricsContainer")
+    metricsContainer.innerHTML = ""
     config.metricNames.forEach((metricName)=>{
         let p = document.createElement("p")
         p.classList = "metrics"
@@ -116,8 +121,29 @@ function generateMetrics(){
         } else {
             p.innerText += `Undefined`
         }
-        container.appendChild(p)
+        metricsContainer.appendChild(p)
     })
+    let warningDataContainer = document.querySelector(".warningDataContainer")
+    if (warningDataContainer){
+        warningDataContainer.innerHTML = "<h2>Data that exceeded limit</h2>"
+        config.metricNames.forEach((metricName)=>{
+            let div = document.createElement("div")
+            div.class = "metrics"
+            let upperLimit = config.metrics[metricName].upperSafetyLimit
+            let lowerLimit = config.metrics[metricName].lowerSafetyLimit
+
+            div.innerHTML = `<hr><h3>${metricName.titleCase()}</h3> <p class="smallText">${lowerLimit? `Lower limit: ${lowerLimit}`:""} ${upperLimit ? `Upper limit: ${upperLimit}` : ""}</p>`
+            warningData[metricName].forEach((dataPoint)=>{
+                let p = document.createElement("p")
+                p.classList = "smallText"
+                p.innerText = `Time: ${+dataPoint.time.toFixed(2)}, Value: ${+dataPoint.value.toFixed(3)}`
+                div.appendChild(p)
+            })
+            if (upperLimit || lowerLimit){
+                warningDataContainer.appendChild(div)
+            }
+        })
+    }
 }
 
 let notificationPermission = (async()=>{await Notification.requestPermission()})()
