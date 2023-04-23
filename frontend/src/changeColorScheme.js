@@ -3,7 +3,7 @@
 let userPreference = null
 if (localStorage.getItem("config")){
     userPreference = JSON.parse(localStorage.getItem("config")).settings.colorScheme.value
-}
+} else {userPreference = "default"}
 const colorSchemeQueryList = window.matchMedia('(prefers-color-scheme: dark)');
 const setColorScheme = e => {
     if (userPreference == "default" || userPreference == null){
