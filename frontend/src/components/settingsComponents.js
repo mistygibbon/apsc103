@@ -120,8 +120,11 @@ function postChange(settings){
                 html.classList.remove("darkMode")
                 html.classList.add("lightMode")
             } else if (displayMode == "default"){
-                html.classList.remove("darkMode")
-                html.classList.remove("lightMode")
+                if (window.matchMedia('(prefers-color-scheme: dark)')){
+                    html.classList = "darkMode"
+                } else {
+                    html.classList = "lightMode"
+                }
             }
             break;
         default:
@@ -138,6 +141,13 @@ function getDarkMode(){
     } else {
         return configValue
     } 
+}
+
+function configEditTextBox(){
+    let div = document.createElement("div")
+    let textarea = document.createElement("textarea")
+    textarea.innerText = JSON.stringify(config, null, 2)
+    return textarea
 }
 
 // function generateSafetyLimit(){
@@ -159,4 +169,4 @@ function getDarkMode(){
 //     return div
 // }
 
-export {exportDataButton, clearLocalStorageButton, generateSettingsItems}
+export {exportDataButton, clearLocalStorageButton, generateSettingsItems, configEditTextBox}

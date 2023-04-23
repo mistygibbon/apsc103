@@ -1,6 +1,8 @@
 import { shiftChart, addRandomData, removeLastData, initializeConfig, replaceData, getMetricsData } from "../chartManipulation"
 import { config } from "../config"
 
+let pageName = location.hash.substring(1)
+
 String.prototype.titleCase = function(){
     const text = this;
     const result = text.replace(/([A-Z])/g, " $1");

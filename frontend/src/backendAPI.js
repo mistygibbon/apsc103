@@ -4,6 +4,8 @@ import testData from './data/testData.json'
 import { config } from './config'
 import { addData } from './chartManipulation'
 import alertAudio from './audio/prompt.wav'
+import favicon from "./images/favicon.ico"
+
 
 let data = {}
 config.metricNames.forEach((metricName)=>{
@@ -104,17 +106,32 @@ config.metricNames.forEach((metricName)=>{
 function update(name){
     cache[name] = fetchData(name)
     cache[name].forEach((datapoint)=>{
-        let safetyLimit 
-        if (config.metrics[name].safetyLimit){
-            safetyLimit = config.metrics[name].safetyLimit
+        let upperSafetyLimit, lowerSafetyLimit 
+        if (config.metrics[name].upperSafetyLimit || config.metrics[name].lowerSafetyLimit){
+            upperSafetyLimit = config.metrics[name].upperSafetyLimit
+            lowerSafetyLimit = config.metrics[name].lowerSafetyLimit
         }
-        if(Math.abs(datapoint.value) > safetyLimit){
+        if(datapoint.value > upperSafetyLimit ){
             if (warningData[name].includes(datapoint)==false){
                 warningData[name].push(datapoint)
                 if (config.settings.enableNotifications.value){
-                    const greeting = new Notification('Warning from Hyperloop GUI',{
-                        body: `${name.titleCase()} exceeded safety limit of ${safetyLimit} at time ${datapoint.time}`,
-                        icon: './img/goodday.png'
+                    const warning = new Notification('Warning from Hyperloop GUI',{
+                        body: `${name.titleCase()} exceeded safety limit of ${upperSafetyLimit} at time ${datapoint.time}`,
+                        icon: favicon
+                    });
+                }
+                if (config.settings.mute.value==false){
+                    let audio = new Audio(alertAudio)
+                    audio.play()
+                }
+            }
+        } else if (datapoint.value < lowerSafetyLimit) {
+            if (warningData[name].includes(datapoint)==false){
+                warningData[name].push(datapoint)
+                if (config.settings.enableNotifications.value){
+                    const warning = new Notification('Warning from Hyperloop GUI',{
+                        body: `${name.titleCase()} under safety limit of ${lowerSafetyLimit} at time ${datapoint.time}`,
+                        icon: favicon
                     });
                 }
                 if (config.settings.mute.value==false){
@@ -124,7 +141,6 @@ function update(name){
             }
         }
     })
-    console.log(warningData)
 }
     // let charts = getChartArray().map().filter(chart=>chart.name==name)
     // let time = cache[name].map(entry=>entry.time)
@@ -159,4 +175,4 @@ setInterval(()=>{
 //     })
 // }
 
-export {fetchData, feedTestMetric, cache, fetchAllData}
+export {fetchData, feedTestMetric, cache, fetchAllData, warningData}
