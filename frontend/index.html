@@ -13,7 +13,37 @@
     <title>Dashboard - Hyperloop GUI</title>
 </head>
 <body>
-    <script src="./src/changeColorScheme.js" type=""></script>
+    <script>
+        // This handles the initial colour settings of the page and also handles when user changes prefers color scheme
+        // The function for handling changing color scheme settings is in settings components
+        let userPreference = null
+        if (localStorage.getItem("config")){
+            userPreference = JSON.parse(localStorage.getItem("config")).settings.colorScheme.value
+        }
+        const colorSchemeQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+        const setColorScheme = e => {
+            if (userPreference == "default" || userPreference == null){
+            if (e.matches) {
+            // Dark
+            console.log('Dark mode')
+            document.querySelector("html").classList = "darkMode"
+            } else {
+            // Light
+            console.log('Light mode')
+            document.querySelector("html").classList = "lightMode"
+            }
+        } else {
+            if (userPreference == "light"){
+                document.querySelector("html").classList = "lightMode"
+            } else if (userPreference == "dark"){
+                document.querySelector("html").classList = "darkMode"
+            }
+        }
+        }
+            
+        setColorScheme(colorSchemeQueryList);
+        colorSchemeQueryList.addEventListener('change', setColorScheme);
+    </script>
 
     <div class="container">
         <div class="titleLogo"></div>

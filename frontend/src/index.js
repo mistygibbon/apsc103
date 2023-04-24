@@ -30,7 +30,7 @@ if (window.location.href.match(/\.html$/)){ // Multi page mode if url contains .
     addEventListener("hashchange", async (event) => {
         let pageName = location.hash.substring(1)
         console.log(event)
-        await progressBarStop
+        await progressBarStop()
         await clearInterval(metricsAutoUpdate)
         await destroyChart()
         showPage(pageName).then(()=>{postRender()})
