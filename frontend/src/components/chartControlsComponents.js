@@ -108,7 +108,8 @@ function viewElementsDropdown(chart, maxItems=500, defaultItems=50){
     select.addEventListener("change", (e)=>{
         console.log(e.target.value)
         chart.visiblePoints = e.target.value
-        shiftChart(chart, e.target.value).update()
+        chart.autoAddDataFunction()
+        chart.update()
     })
     return select
 }
