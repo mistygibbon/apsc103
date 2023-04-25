@@ -4,3 +4,4 @@ flask_sqlalchemy==3.0.3
 MarkupSafe==2.1.2
 pandas==1.5.2
 SQLAlchemy==2.0.10
+gunicorn
