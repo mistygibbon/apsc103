@@ -33,8 +33,13 @@ asyncio.set_event_loop(loop)
 
 # async def main():
     # await task
-counter = 0
+counter = {}
 start = 0
+counter["velocity"] = 0
+counter["temperature"] = 0
+counter["distanceTravelled"] = 0
+counter["pressure"] = 0
+
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
@@ -54,7 +59,10 @@ def stop(key):
         # global task
         # task.cancel()
         global start, counter
-        counter = 0
+        counter["velocity"] = 0
+        counter["temperature"] = 0
+        counter["distanceTravelled"] = 0
+        counter["pressure"] = 0
         start = 0
         response = "Stopped successfully"
         return response
@@ -63,8 +71,8 @@ def stop(key):
 def show(metricName):
     global start, counter
     if start == 1:
-        counter += 1
-        response = jsonify(data[metricName][0:counter])
+        counter[metricName] += 1
+        response = jsonify(data[metricName][0:counter[metricName]])
         return response
     elif start == 0:
         response = "app has not started"
@@ -74,7 +82,6 @@ def show(metricName):
 def showAll():
     global start, counter
     if start == 1:
-        counter += 1
         response = jsonify(data)
         return response
     elif start == 0:
