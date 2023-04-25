@@ -5,26 +5,33 @@ import { config } from './config'
 import { addData } from './chartManipulation'
 import alertAudio from './audio/prompt.wav'
 import favicon from "./images/favicon.ico"
+import additionalData from "./data/additionalMetrics.json"
 
 
 let data = {}
+
 config.metricNames.forEach((metricName)=>{
-    data[metricName] = []
+    if (Array.isArray(testData[metricName])){
+        data[metricName] = []
+    } 
 })
 
 let cache = {
+    ...additionalData,
     timeValueSplit: function(name){
         return [this[name].map(entry=>entry.time),this[name].map(entry=>entry.time)]
     }
 }
 config.metricNames.forEach((metricName)=>{
-    cache[metricName] = []
+    if (Array.isArray(testData[metricName])){
+        cache[metricName] = []
+    } 
 })
 
-
+let timeouts = {}
 
 function feedTestMetric(name){
-    setTimeout(()=>{
+    timeouts[name] = setTimeout(()=>{
         let metric = data[name]
         if (metric.length < testData[name].length){
             let insert = testData[name][metric.length]
@@ -62,9 +69,20 @@ function getRandomData(){
     return num
 }
 
-if (config.APIurl == ""){
+function startFeedTestMetric(){
+    if (config.APIurl == ""){
+        config.graphMetrics.forEach((metricName)=>{
+            feedTestMetric(metricName)
+        })
+    }
+}
+
+function stopFeedTestMetric(){
+    console.log(timeouts)
     config.graphMetrics.forEach((metricName)=>{
-        feedTestMetric(metricName)
+        clearTimeout(timeouts[metricName])
+        data[metricName] = []
+        warningData[metricName]=[]
     })
 }
 
@@ -98,6 +116,7 @@ function fetchAllData(){
         console.log(err);
     })
 }
+
 let warningData = {}
 config.metricNames.forEach((metricName)=>{
     warningData[metricName] = []
@@ -175,4 +194,4 @@ setInterval(()=>{
 //     })
 // }
 
-export {fetchData, feedTestMetric, cache, fetchAllData, warningData}
+export {fetchData, feedTestMetric, cache, fetchAllData, warningData, startFeedTestMetric, stopFeedTestMetric}

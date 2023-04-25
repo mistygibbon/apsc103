@@ -33,6 +33,7 @@ function chartSelectionDropdown(chart){
         chart.name = newChartName
         chart.data.datasets[0].label = newChartName.titleCase()
         // replaceData(chart, getMetricsData(newChartName,chart.visiblePoints))
+        chart.autoAddDataFunction()
         chart.update()
     })
     return select
@@ -93,6 +94,7 @@ function viewElementsDropdown(chart, maxItems=500, defaultItems=50){
     let select = document.createElement("select")
     select.name = "Number of Elements"
     select.classList = "chartControl"
+
     for (let i = 10; i < maxItems+1; i+=10){
         const tempOption = document.createElement("option")
         tempOption.innerText = i
@@ -102,6 +104,7 @@ function viewElementsDropdown(chart, maxItems=500, defaultItems=50){
         }
         select.appendChild(tempOption)
     }
+
     select.addEventListener("change", (e)=>{
         console.log(e.target.value)
         chart.visiblePoints = e.target.value

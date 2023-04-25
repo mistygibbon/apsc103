@@ -43,7 +43,9 @@ const defaultConfig = {
 
         },
         pressure: {
-            graph: false,
+            graph: true,
+            upperSafetyLimit: 10500,
+            lowerSafetyLimit: 9000,
         },
         voltage: {
             graph: false,
@@ -125,6 +127,6 @@ Object.defineProperty(config,"settingsItems",{
 
 
 
-console.log(`You are using configuration: `, defaultConfig)
+console.info(`You are using configuration: `, defaultConfig)
 
 export {config, storeConfig}

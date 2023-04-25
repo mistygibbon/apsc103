@@ -2,7 +2,7 @@
 import { addRandomData, shiftChart, createChart, createChartControls} from "./chartManipulation"
 import {  } from "./dataStorage";
 import {Chart} from 'chart.js';
-import { warningData } from "./backendAPI";
+import { startFeedTestMetric, stopFeedTestMetric, warningData } from "./backendAPI";
 import { showPage } from "./render";
 import { config } from "./config";
 import { clearLocalStorageButton, exportDataButton, generateSettingsItems, configEditTextBox } from "./components/settingsComponents";
@@ -10,7 +10,7 @@ import { cache } from "./backendAPI";
 import { progressBarStart, progressBarStop} from "./progressBar";
 
 var chartArr = []
-var metricsAutoUpdate
+var metricsAutoUpdate, mainTileAutoUpdate
 
 // Mode switcher
 if (window.location.href.match(/\.html$/)){ // Multi page mode if url contains .html
@@ -30,9 +30,10 @@ if (window.location.href.match(/\.html$/)){ // Multi page mode if url contains .
     addEventListener("hashchange", async (event) => {
         let pageName = location.hash.substring(1)
         console.log(event)
-        await progressBarStop()
-        await clearInterval(metricsAutoUpdate)
-        await destroyChart()
+        progressBarStop()
+        clearInterval(metricsAutoUpdate)
+        clearInterval(mainTileAutoUpdate)
+        destroyChart()
         showPage(pageName).then(()=>{postRender()})
     });
     if (location.hash == ""){location.hash = "dashboard"}
@@ -41,14 +42,37 @@ if (window.location.href.match(/\.html$/)){ // Multi page mode if url contains .
         showPage(pageName).then(()=>{postRender()})
     }
 }
-
+let deactivated = false
 function postRender(){
     let pageName = location.hash.substring(1)
-    if (pageName=="dashboard"||pageName=="graphs"){
+    if (pageName=="dashboard"){
         generateChart()
         progressBarStart()
-    } 
-    
+        updateMainTile()
+        mainTileAutoUpdate = setInterval(()=>{updateMainTile();console.log("main tile updated")},1000)
+        let startTripButton = document.getElementById("startTripButton")
+        if (deactivated == true){
+            startTripButton.classList.add("deactivated")
+        }
+        startTripButton.addEventListener("click",()=>{
+            if (deactivated==false){
+            console.log("hi")
+            startFeedTestMetric()
+            startTripButton.classList.add("deactivated")
+            deactivated = true
+            }
+        })
+
+        let stopTripButton = document.getElementById("stopTripButton")
+        stopTripButton.addEventListener("click", ()=>{
+            stopFeedTestMetric()
+            startTripButton.classList.remove("deactivated")
+            deactivated = !deactivated
+        })
+    }
+    if (pageName=="graphs"){
+        generateChart()
+    }
     if (pageName=="settings"){
         let div = document.querySelector("div.optionsContainer")
         generateSettings()
@@ -115,9 +139,14 @@ function generateMetrics(){
         let p = document.createElement("p")
         p.classList = "metrics"
         p.innerText = `${metricName.titleCase()}: `
-        console.log(cache[metricName].slice(-1))
-        if (cache[metricName].at(-1) != undefined){
-            p.innerText += `${cache[metricName].at(-1).value}`
+        console.log(cache)
+        if (cache[metricName] != undefined){
+            if (Array.isArray(cache[metricName]) && cache[metricName].length!==0){
+                p.innerText += `${cache[metricName].at(-1).value}`
+            } else if (typeof cache[metricName] === 'string'){
+                p.innerText += `${cache[metricName]}`
+                console.log(cache[metricName])
+            }
         } else {
             p.innerText += `Undefined`
         }
@@ -146,9 +175,43 @@ function generateMetrics(){
     }
 }
 
+
 let notificationPermission = (async()=>{await Notification.requestPermission()})()
 
-
+function updateMainTile(){
+    let detailsDiv = document.getElementById("details")
+    detailsDiv.innerHTML = "<h2>Details</h2>"
+    let array = ["model"]
+    array.forEach((data)=>{
+        let p = document.createElement("p")
+        p.innerText = `${data.titleCase()}: ${cache[data]}`
+        detailsDiv.appendChild(p)
+    })
+    let metricsDiv = document.getElementById("keyMetrics")
+    metricsDiv.innerHTML = "<h2>Key Metrics</h2>"
+    let metricsArray = ["temperature","velocity","pressure"]
+    metricsArray.forEach((metricName)=>{
+        let p = document.createElement("p")
+        if (Array.isArray(cache[metricName]) && cache[metricName].length!==0){
+            p.innerText += `${metricName.titleCase()}: ${cache[metricName].at(-1).value.toFixed(2)}`
+        } else if (typeof cache[metricName] === 'string'){
+            p.innerText += `${metricName.titleCase()}: ${cache[metricName]}`
+            console.log(cache[metricName])
+        }
+        metricsDiv.appendChild(p)
+    })
+    let warningText = document.createElement("p")
+    warningText.classList = "warning"
+    let warningMetrics = Object.getOwnPropertyNames(warningData)
+    let warningDataSize = 0
+    warningMetrics.forEach((warningMetric)=>{warningDataSize+=warningData[warningMetric].length})
+    if (warningDataSize==1){
+        warningText.innerText = `${warningDataSize} data point has exceeded safety limit`
+    } else if (warningDataSize>1){
+        warningText.innerText = `${warningDataSize} data points have exceeded safety limit`
+    }
+    metricsDiv.appendChild(warningText)
+}
 
 
 // Shortcut keys
@@ -174,6 +237,7 @@ document.addEventListener("keypress",(e)=>{
 
     // }
 })
+
 // document.querySelectorAll(".pageButtons").forEach((pageButton)=>{
 //     pageButton.addEventListener("click",()=>{
 
