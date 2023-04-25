@@ -39,6 +39,7 @@ counter["velocity"] = 0
 counter["temperature"] = 0
 counter["distanceTravelled"] = 0
 counter["pressure"] = 0
+counter["acceleration"] = 0
 
 @app.route("/")
 def hello_world():
@@ -63,6 +64,7 @@ def stop(key):
         counter["temperature"] = 0
         counter["distanceTravelled"] = 0
         counter["pressure"] = 0
+        counter["acceleration"] = 0
         start = 0
         response = "Stopped successfully"
         return response
