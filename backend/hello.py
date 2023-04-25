@@ -1,11 +1,13 @@
 from flask import Flask
 from markupsafe import escape
 from flask import render_template, jsonify, request
+from flask_cors import CORS
 import json
 import asyncio
 import sys
 
 app = Flask(__name__)
+CORS(app)
 
 file = open('./testData.json')
 data = json.load(file)
@@ -43,7 +45,8 @@ def index(key):
         # asyncio.run(main())
         global start
         start = 1
-        return "Started successfully"
+        response = "Started successfully"
+        return response
 
 @app.route("/stop/<key>")
 def stop(key):
@@ -53,22 +56,27 @@ def stop(key):
         global start, counter
         counter = 0
         start = 0
-        return "Stopped successfully"
+        response = "Stopped successfully"
+        return response
 
 @app.route('/api/<metricName>/')
 def show(metricName):
     global start, counter
     if start == 1:
         counter += 1
-        return jsonify(data[metricName][0:counter])
+        response = jsonify(data[metricName][0:counter])
+        return response
     elif start == 0:
-        return "app has not started"
+        response = "app has not started"
+        return response
 
 @app.route('/api/')
 def showAll():
     global start, counter
     if start == 1:
         counter += 1
-        return jsonify(data)
+        response = jsonify(data)
+        return response
     elif start == 0:
-        return "app has not started"
+        response = "app has not started"
+        return response
