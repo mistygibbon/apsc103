@@ -7,7 +7,8 @@ import alertAudio from './audio/prompt.wav'
 import favicon from "./images/favicon.ico"
 import additionalData from "./data/additionalMetrics.json"
 
-
+let APIurl = config.APIurl
+let started = false
 let data = {}
 
 config.metricNames.forEach((metricName)=>{
@@ -74,6 +75,15 @@ function startFeedTestMetric(){
         config.graphMetrics.forEach((metricName)=>{
             feedTestMetric(metricName)
         })
+    } else {
+        fetch(`${APIurl}/start/helllo`).then(
+            (response)=>{
+                console.group("API start response")
+                console.log(response)
+                console.groupEnd
+                started = true
+            }
+        )
     }
 }
 
@@ -83,30 +93,54 @@ function stopFeedTestMetric(){
         clearTimeout(timeouts[metricName])
         data[metricName] = []
         warningData[metricName]=[]
+        fetch(`${APIurl}/stop/helllo`)
+        started = false
     })
 }
 
 
-function fetchData(name) {
+async function fetchData(name) {
     if(config.APIurl==""){
         return data[name]
     }
-    return fetch(`./src/data/lol.json`).then(
-        // async (response) => {
-        //     let json = await response.json();
-        //     return json
-        // }
+    if (started == false){
+        return []
+    }
+    let response = await fetch(`${APIurl}/api/${name}`)
+    console.groupCollapsed("API response")
+    console.log(response)
+    data = await response.json()
+    console.log(data)
+    console.groupEnd()
+    return data
 
-    ).catch((err) => {
-        console.log(err);
-    })
+    //     (response)=>{
+    //         console.groupCollapsed("API response")
+    //         console.log(response)
+    //         response.json().then((data)=>{console.log(data);return data})
+    //         console.groupEnd()
+    //     }
+    //     // async (response) => {
+    //     //     let json = await response.json();
+    //     //     return json
+    //     // }
+
+    // ).catch((err) => {
+    //     console.log(err);
+    // })
 }
 
 function fetchAllData(){
     if(config.APIurl==""){
         return testData
     }
-    return fetch(`./src/data/lol.json`).then(
+    fetch(`${APIurl}/api`).then(
+        (response)=>{
+            console.groupCollapsed("API response")
+            console.log(response)
+            response.json().then((data)=>{console.log(data);return data})
+            console.groupEnd()
+        }
         // async (response) => {
         //     let json = await response.json();
         //     return json
@@ -122,8 +156,9 @@ config.metricNames.forEach((metricName)=>{
     warningData[metricName] = []
 })
 
-function update(name){
-    cache[name] = fetchData(name)
+async function update(name){
+    cache[name] = await fetchData(name)
+    window.fetchData = fetchData
     cache[name].forEach((datapoint)=>{
         let upperSafetyLimit, lowerSafetyLimit 
         if (config.metrics[name].upperSafetyLimit || config.metrics[name].lowerSafetyLimit){
@@ -131,7 +166,7 @@ function update(name){
             lowerSafetyLimit = config.metrics[name].lowerSafetyLimit
         }
         if(datapoint.value > upperSafetyLimit ){
-            if (warningData[name].includes(datapoint)==false){
+            if (warningData[name].find(element=>element.time==datapoint.time)==undefined){
                 warningData[name].push(datapoint)
                 if (config.settings.enableNotifications.value){
                     const warning = new Notification('Warning from Hyperloop GUI',{
@@ -175,8 +210,8 @@ function update(name){
     // })
 
 setInterval(()=>{
-    config.graphMetrics.forEach((metric)=>{
-        update(metric)
+    config.graphMetrics.forEach(async(metric)=>{
+        await update(metric)
         // console.log(cache[metric])
     })
 },1000)

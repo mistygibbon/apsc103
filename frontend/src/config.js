@@ -6,7 +6,7 @@ import settings from './templates/settings.htm'
 let localStorageConfig = localStorage.getItem("config")
 const defaultConfig = {
     version: 1,
-    APIurl: "",
+    APIurl: "https://apsc103-production.up.railway.app",
     pages : {
         dashboard: {
             templateLink: dashboard,
