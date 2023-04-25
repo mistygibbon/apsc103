@@ -130,25 +130,28 @@ async function fetchData(name) {
     // })
 }
 
-function fetchAllData(){
+async function fetchAllData(){
     if(config.APIurl==""){
         return testData
     }
-    fetch(`${APIurl}/api`).then(
-        (response)=>{
-            console.groupCollapsed("API response")
-            console.log(response)
-            response.json().then((data)=>{console.log(data);return data})
-            console.groupEnd()
-        }
-        // async (response) => {
-        //     let json = await response.json();
-        //     return json
-        // }
+    // fetch(`${APIurl}/api`).then(
+    //     (response)=>{
+    //         console.groupCollapsed("API response")
+    //         console.log(response)
+    //         response.json().then((data)=>{console.log(data);return data})
+    //         console.groupEnd()
+    //     }
+    //     // async (response) => {
+    //     //     let json = await response.json();
+    //     //     return json
+    //     // }
 
-    ).catch((err) => {
-        console.log(err);
-    })
+    // ).catch((err) => {
+    //     console.log(err);
+    // })
+    let response = await fetch(`${APIurl}/api/`)
+    let data = await response.json()
+    return data
 }
 
 let warningData = {}
@@ -166,7 +169,7 @@ async function update(name){
             lowerSafetyLimit = config.metrics[name].lowerSafetyLimit
         }
         if(datapoint.value > upperSafetyLimit ){
-            if (warningData[name].find(element=>element.time==datapoint.time)==undefined){
+            if (warningData[name].find(element=>element.time.toFixed(2)==datapoint.time.toFixed(2))==undefined){
                 warningData[name].push(datapoint)
                 if (config.settings.enableNotifications.value){
                     const warning = new Notification('Warning from Hyperloop GUI',{
@@ -180,7 +183,7 @@ async function update(name){
                 }
             }
         } else if (datapoint.value < lowerSafetyLimit) {
-            if (warningData[name].includes(datapoint)==false){
+            if (warningData[name].find(element=>element.time.toFixed(2)==datapoint.time.toFixed(2))==undefined){
                 warningData[name].push(datapoint)
                 if (config.settings.enableNotifications.value){
                     const warning = new Notification('Warning from Hyperloop GUI',{

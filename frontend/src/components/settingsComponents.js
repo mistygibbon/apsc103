@@ -13,10 +13,10 @@ function exportDataButton(){
     let button = document.createElement("button")
     button.innerText = "Export data"
     button.classList = "mainButton"
-    button.addEventListener("click",()=>{
-        var blob = new Blob([JSON.stringify(fetchAllData(),null,2)],
+    button.addEventListener("click",async ()=>{
+        let data = await fetchAllData()
+        var blob = new Blob([JSON.stringify(data,null,2)],
                 { type: "text/plain;charset=utf-8" });
-
         saveAs(blob, `HyperloopGUI ${getTimestamp()}.json`);
     })
     return button
