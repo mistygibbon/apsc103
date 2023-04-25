@@ -54,10 +54,6 @@ def stop(key):
         counter = 0
         start = 0
         return "Stopped successfully"
-# @app.route('/hello/')
-# @app.route('/hello/<name>')
-# def hello(name=None):
-#     return render_template('hello.html', name=name)
 
 @app.route('/api/<metricName>/')
 def show(metricName):
@@ -70,4 +66,9 @@ def show(metricName):
 
 @app.route('/api/')
 def showAll():
-    return jsonify(data)
+    global start, counter
+    if start == 1:
+        counter += 1
+        return jsonify(data)
+    elif start == 0:
+        return "app has not started"
