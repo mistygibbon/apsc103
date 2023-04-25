@@ -56,3 +56,7 @@ def stop(key):
 @app.route('/api/<metricName>/')
 def show(metricName):
     return jsonify(returnData[metricName])
+
+@app.route('/api/')
+def showAll():
+    return jsonify(data)
